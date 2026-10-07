@@ -86,15 +86,54 @@ h1 span{font-size:.58em;font-weight:500}
 .empty .big{font-size:42px}
 .empty h3{font-family:"Playfair Display",serif;font-size:25px;margin:12px 0 6px}
 .empty p{color:var(--muted);font-size:13px;line-height:1.6;margin:0}
-.profile-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.profile{display:flex;gap:14px;align-items:flex-start;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease}
-.profile:hover{transform:translateY(-1px);box-shadow:0 16px 30px rgba(121,75,96,.14)}
-.avatar{width:74px;height:74px;border-radius:50%;flex:none;background:linear-gradient(145deg,#f9dce7,#fff);border:2px solid #fff;box-shadow:0 5px 18px rgba(120,70,95,.13);display:flex;align-items:center;justify-content:center;color:#c77b98;font-size:25px;overflow:hidden}
+.insta-view,.insta-profile-view{--insta-ink:#262626;--insta-muted:#737373;--insta-line:#dbdbdb;color:var(--insta-ink);font-family:Arial,sans-serif}
+.insta-topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 0 16px;border-bottom:1px solid var(--insta-line)}
+.insta-wordmark{font-family:"Playfair Display",serif;font-size:27px;font-weight:700;letter-spacing:-.06em}
+.insta-topbar-label,.insta-section-heading>div>span{color:var(--insta-muted);font-size:10px;font-weight:700;letter-spacing:.12em}
+.insta-section-heading{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:26px 0 16px}
+.insta-section-heading h2{margin:4px 0 0;font-size:27px;letter-spacing:-.04em}
+.insta-count{padding:6px 10px;border-radius:999px;background:#f2f2f2;color:var(--insta-muted);font-size:11px;font-weight:600}
+.insta-stories{display:flex;gap:19px;overflow-x:auto;padding:2px 0 17px;border-bottom:1px solid var(--insta-line);scrollbar-width:thin}
+.insta-story{display:grid;justify-items:center;gap:6px;flex:0 0 68px;padding:0;border:0;background:transparent;color:var(--insta-ink);font-size:11px;cursor:pointer}
+.insta-story-ring{display:grid;place-items:center;width:62px;height:62px;padding:3px;border-radius:50%;background:linear-gradient(35deg,#ffc653,#ed3e76,#a33bc3)}
+.avatar{width:100%;height:100%;border-radius:50%;flex:none;background:#f2f2f2;border:2px solid #fff;display:flex;align-items:center;justify-content:center;color:#737373;font-size:25px;overflow:hidden}
+.insta-list-heading{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:21px 0 10px}
+.insta-list-heading h3{margin:0;font-size:15px}
+.insta-list-heading>span{color:var(--insta-muted);font-size:11px}
+.profile-list{display:grid;grid-template-columns:1fr;gap:0;border-top:1px solid var(--insta-line)}
+.profile{width:100%;display:flex;gap:13px;align-items:center;text-align:left;padding:15px 2px;border:0;border-bottom:1px solid var(--insta-line);background:transparent;color:inherit;font:inherit;cursor:pointer;transition:background .15s ease}
+.profile:hover{background:#fafafa}
+.profile>.avatar{width:54px;height:54px;box-shadow:none}
+.profile-copy{display:grid;min-width:0;gap:3px;flex:1}
+.profile-display-name{color:var(--insta-muted);font-size:12px}
+.profile-open{display:flex;align-items:center;gap:7px;color:#0095f6;font-size:12px;font-weight:700;white-space:nowrap}
+.profile-open span{font-size:20px;font-weight:400}
 .avatar img{width:100%;height:100%;display:block;object-fit:cover;object-position:center center}
 .username{font-weight:700;font-size:14px}
 .verified{display:inline-flex;width:15px;height:15px;border-radius:50%;background:#62aaf2;color:#fff;align-items:center;justify-content:center;font-size:10px;margin-left:3px}
-.bio{font-size:12px!important;margin-top:5px!important}
+.bio{display:block;color:#525252;font-size:12px;line-height:1.45;margin:3px 0 0}
+.insta-profile-view .section-head{text-align:left;margin:8px 0 10px}
+.insta-profile-view .section-head h2{font-family:Arial,sans-serif;font-size:22px;letter-spacing:-.03em}
+.insta-profile-view .section-head p{display:none}
+.insta-profile-view .back-btn{margin:4px 0 16px;border-color:transparent;padding:8px 0;color:#0095f6}
 .profile-detail{display:grid;grid-template-columns:180px 1fr;gap:22px;align-items:start;background:rgba(255,255,255,.9);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}
+.insta-profile-view .profile-detail{grid-template-columns:112px minmax(0,1fr);gap:22px;align-items:center;border:0;border-bottom:1px solid var(--insta-line);border-radius:0;padding:8px 0 24px;box-shadow:none}
+.insta-profile-view .profile-photo-wrap,.insta-profile-view .profile-detail-avatar{width:104px;height:104px}
+.insta-profile-view .profile-detail-avatar{border:0;box-shadow:none}
+.insta-profile-view .profile-detail-body{gap:12px}
+.insta-profile-view .profile-detail-body h3{font-family:Arial,sans-serif;font-size:21px}
+.insta-profile-view .profile-occupation{color:var(--insta-muted);font-size:12px}
+.insta-profile-view .stats-row{gap:12px;margin:0}
+.insta-profile-view .stat-box{padding:0;border:0;border-radius:0;background:transparent}
+.insta-profile-view .stat-box strong{font-size:15px}
+.insta-profile-view .stat-box span{font-size:11px;letter-spacing:0;text-transform:none}
+.insta-profile-view .profile-actions{gap:7px}
+.insta-profile-view .profile-actions button{flex:1;padding:8px 10px;border-radius:7px;font-size:12px}
+.insta-profile-view .message-btn{background:#efefef;color:var(--insta-ink)}
+.insta-profile-view .following-btn{background:#efefef;color:var(--insta-ink)}
+.insta-profile-view .profile-detail-body .profile-bio{font-size:14px;font-weight:400;line-height:1.55;color:var(--insta-ink)}
+.insta-profile-view .profile-detail-body .private-notice{color:var(--insta-muted);font-size:13px}
+.insta-profile-view .profile-detail-body .album-link{color:#0095f6}
 .profile-photo-wrap{position:relative;width:180px;height:180px}
 .profile-detail-avatar{width:180px;height:180px;border-radius:50%;overflow:hidden;background:linear-gradient(145deg,#f9dce7,#fff);display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 10px 25px rgba(120,70,95,.12)}
 .profile-detail-avatar img{width:100%;height:100%;object-fit:cover;object-position:center center}
@@ -166,4 +205,12 @@ h1 span{font-size:.58em;font-weight:500}
  .card{padding:17px}
  .notes-page{padding:22px 18px}
  .notes-page p{font-size:15px;line-height:1.8}
+ .insta-profile-view .profile-detail{grid-template-columns:78px minmax(0,1fr);gap:14px;align-items:start}
+ .insta-profile-view .profile-photo-wrap,.insta-profile-view .profile-detail-avatar{width:74px;height:74px}
+ .insta-profile-view .profile-detail-body{gap:10px}
+ .insta-profile-view .profile-detail-body h3{font-size:18px}
+ .insta-profile-view .profile-detail-top{gap:5px}
+ .insta-profile-view .profile-detail-name{gap:5px}
+ .insta-profile-view .profile-occupation{font-size:11px}
+ .insta-profile-view .stat-box span{font-size:10px}
 }

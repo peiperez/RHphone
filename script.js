@@ -98,14 +98,31 @@ function renderMaps(){
 }
 
 function renderInsta(){
-  app.innerHTML = pageHeader("InstaPic","The profiles will become fully editable once photos are added.") +
-    `<div class="profile-list">${insta.map((p,i)=>`
-      <article class="card profile" data-profile-name="${p.u.replace(/^@/, '')}">
-        <div class="avatar">${p.photo?`<img src="${p.photo}" alt="${p.u}" style="object-position:${p.pos || 'center center'};">`:(i===0?"T":i===1?"T":i===2?"R":i===3?"I":"A")}</div>
-        <div><div class="username">${p.u}${p.v?` <span class="verified">✓</span>`:""}</div><p class="bio">${p.b}</p></div>
-      </article>`).join("")}</div>`;
+  app.innerHTML = `
+    <section class="insta-view" aria-label="InstaPic">
+      <header class="insta-topbar"><span class="insta-wordmark">InstaPic</span><span class="insta-topbar-label">STORY SOCIAL</span></header>
+      <div class="insta-section-heading"><div><span>YOUR CIRCLE</span><h2>Discover people</h2></div><span class="insta-count">${insta.length} profiles</span></div>
+      <div class="insta-stories" aria-label="Character profiles">
+        ${insta.map(p=>`
+          <button class="insta-story" type="button" data-profile-name="${p.u.replace(/^@/, '')}" aria-label="View ${p.character}'s profile">
+            <span class="insta-story-ring"><span class="avatar">${p.photo?`<img src="${p.photo}" alt="" style="object-position:${p.pos || 'center center'};">`:p.character.slice(0,1)}</span></span>
+            <span>${p.character}</span>
+          </button>`).join("")}
+      </div>
+      <div class="insta-list-heading"><h3>Suggested for you</h3><span>Tap a profile to explore</span></div>
+      <div class="profile-list">${insta.map((p,i)=>`
+        <button class="profile" type="button" data-profile-name="${p.u.replace(/^@/, '')}">
+          <span class="avatar">${p.photo?`<img src="${p.photo}" alt="" style="object-position:${p.pos || 'center center'};">`:(i===0?"T":i===1?"T":i===2?"R":i===3?"I":"A")}</span>
+          <span class="profile-copy">
+            <span class="username">${p.u}${p.v?` <span class="verified">✓</span>`:""}</span>
+            <span class="profile-display-name">${p.character} · ${p.occupation}</span>
+            <span class="bio">${p.b}</span>
+          </span>
+          <span class="profile-open" aria-hidden="true">View profile <span>›</span></span>
+        </button>`).join("")}</div>
+    </section>`;
 
-  document.querySelectorAll(".profile").forEach(card => {
+  document.querySelectorAll(".profile, .insta-story").forEach(card => {
     card.addEventListener("click", () => renderCharacterProfile(card.dataset.profileName));
   });
 }
@@ -152,7 +169,8 @@ function renderCharacterProfile(name){
     : label === 'Its.Ukiholic' ? {posts: 42, following: 4268, followers: 20400}
     : {posts: 42, following: 320, followers: 980};
 
-  app.innerHTML = pageHeader("Character Profile","Back to the full list of profiles.") +
+  app.innerHTML = `<section class="insta-profile-view">` +
+    pageHeader("Profile","") +
     `<button class="back-btn" data-back="instapic">← Back to InstaPic</button>
     <div class="profile-detail">
       <div class="profile-photo-wrap">
@@ -187,7 +205,7 @@ function renderCharacterProfile(name){
         <div class="toji-post-caption">"Man I gotta get a new phone...cameras busted "</div>
       </div>
     ` : ''}
-    ${chatThread}`;
+    ${chatThread}</section>`;
 
   document.querySelector(".back-btn").addEventListener("click", () => renderInsta());
   const fakeAlbumLink = document.querySelector(".album-link");
