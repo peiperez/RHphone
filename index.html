@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f2d3cf">
   <title>Five Men and a Fallen Heiress</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -35,12 +36,10 @@
 
     <main id="app" class="content" tabindex="-1" aria-label="Story app content"></main>
 
-    <nav class="bottom-nav" aria-label="Main navigation">
-      <button class="nav-btn active" data-page="maps"><span>⌖</span><small>Maps</small></button>
-      <button class="nav-btn" data-page="instapic"><span>◎</span><small>InstaPic</small></button>
-      <button class="nav-btn" data-page="calendar"><span>□</span><small>Calendar</small></button>
-      <button class="nav-btn" data-page="photos"><span>♡</span><small>Photos</small></button>
-      <button class="nav-btn" data-page="notes"><span>✦</span><small>Notes</small></button>
+    <nav class="phone-dock" aria-label="Favorite apps">
+      <button class="dock-app" type="button" data-page="maps" aria-label="Open Maps"><span class="app-icon icon-maps"><svg aria-hidden="true"><use href="#icon-maps"/></svg></span></button>
+      <button class="dock-app" type="button" data-page="instapic" aria-label="Open InstaPic"><span class="app-icon icon-instapic"><svg aria-hidden="true"><use href="#icon-instapic"/></svg></span></button>
+      <button class="dock-app" type="button" data-page="notes" aria-label="Open Notes"><span class="app-icon icon-notes"><svg aria-hidden="true"><use href="#icon-notes"/></svg></span></button>
     </nav>
 
     <nav class="phone-dock" aria-label="Favorite apps">
