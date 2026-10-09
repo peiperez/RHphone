@@ -3,7 +3,7 @@ const locations = [
   {icon:"🍸", tag:"Work", title:"Le Souterrain", x:48, y:45, text:"The most expensive venue around! Anyone with enough cash and status frequents here."},
   {icon:"🪩", tag:"Club", title:"VENÓM", x:78, y:23, text:"An exclusive nightclub."},
   {icon:"🏢", tag:"Enterprise", title:"Kurogane Enterprise", x:81, y:57, text:"Tatsuya's family's most notable organization, with plenty of public charity events and political influence. They pretty much engulfed my parents' organizations after we went broke."},
-  {icon:"🪦", tag:"Cemetery", title:"Saionji Family Cemetery", x:59, y:79, text:"Mom and dad were buried here…"},
+  {icon:"🪦", tag:"Cemetery", title:"Cemetery", x:59, y:79, text:"Mom and dad were buried here…"},
   {icon:"📚", tag:"Publisher", title:"Yagami Publishing", x:34, y:75, text:"The home of Itsuki's publisher and editor — Yagami, if I remember correctly."},
   {icon:"🏥", tag:"Hospital", title:"Saint Aurelia Hospital", x:15, y:53}
 ];
@@ -16,8 +16,64 @@ const insta = [
   {u:"@AkohitoSaionji", character:"Ritsu", pseudonym:"Akihito", occupation:"Idol", b:"Idol. 20. Check out my new album: Reflexion out now!", v:true, photo:"images/akihito-ritsu.png", pos:"center 25%"}
 ];
 
+const reminders = [
+  "Pay off debt : -$65,000,000",
+  "Work",
+  "Investigate parents murder- what happened? Why? Whey did they take out so much money from the mafia? Who caused this to happen- who is to blame?",
+  "Check on Itsuki’s mental- drinking problem?",
+  "Clean",
+  "Cook",
+  "Interrogate Tatsuya: private account? Are we not as close as I think we are? Why is he avoiding me…?",
+  "Look into Toji: hes been in debt to the mafia for years working for Ryuji. Why is he taking so many loans from them? See if he knows anything since the mafia trusts him, shady?",
+  "Ryuji: get closer to him see if he knows anything? #SCARYYYY",
+  "Itsuki: does he know something?",
+  "Ritsu: whats his deal? Whyd he get into preforming? 2 faced…His DMs- hes so concerned ab me knowing him, mafia?"
+];
+
 const app = document.getElementById("app");
-const navs = [...document.querySelectorAll(".nav-btn")];
+const shell = document.querySelector(".site-shell");
+const appToolbar = document.querySelector(".app-toolbar");
+const phoneApps = [
+  {page:"maps", title:"Maps", description:"Find your way"},
+  {page:"instapic", title:"InstaPic", description:"Your dangerous connections"},
+  {page:"calendar", title:"Calendar", description:"Dates and story events"},
+  {page:"photos", title:"Photos", description:"Your memories"},
+  {page:"notes", title:"Notes", description:"Secrets worth keeping"},
+  {page:"reminderz", title:"Reminderz", description:"Your to-do list"}
+];
+
+function renderHome(){
+  app.innerHTML = `
+    <section class="home-screen" aria-label="Your story phone">
+      <div class="home-clock"><p id="home-date"></p><div id="home-time"></div><span>A little ordinary. A little dangerous.</span></div>
+      <div class="story-widget">
+        <span class="widget-eyebrow">YOUR NEXT CHAPTER</span>
+        <h1>Five Men<br><span>and a Fallen Heiress</span></h1>
+        <p>Your old life is gone.<br>A new story is just a tap away.</p>
+        <button class="story-open" type="button" data-page="maps">Enter story <span aria-hidden="true">↗</span></button>
+        <span class="widget-flower" aria-hidden="true">✳</span>
+      </div>
+      <nav class="home-apps" aria-label="All apps">
+        ${phoneApps.map(phoneApp => `<button class="home-app" type="button" data-page="${phoneApp.page}" aria-label="Open ${phoneApp.title}: ${phoneApp.description}">
+          <span class="app-icon icon-${phoneApp.page}"><svg aria-hidden="true"><use href="#icon-${phoneApp.page}"/></svg></span>
+          <span class="app-label">${phoneApp.title}</span>
+        </button>`).join("")}
+      </nav>
+      <div class="home-caption"><span aria-hidden="true"></span> YOUR WORLD, IN YOUR POCKET</div>
+    </section>`;
+  updateClock();
+}
+
+function updateClock(){
+  const now = new Date();
+  const time = now.toLocaleTimeString([], {hour:"numeric", minute:"2-digit", hour12:false});
+  document.getElementById("status-time").textContent = time;
+  const homeTime = document.getElementById("home-time");
+  if(homeTime){
+    homeTime.textContent = time;
+    document.getElementById("home-date").textContent = now.toLocaleDateString([], {weekday:"long", month:"long", day:"numeric"});
+  }
+}
 
 const characterNotes = {
   Toji: {
@@ -34,6 +90,10 @@ const characterNotes = {
   },
   Itsuki: {
     title: "Itsuki",
+    personalNote: [
+      "Itsuki and I used to be super close childhoodfriends but we havent really spoken at all in the last nine years- he kinda just disappeared... Now that I'm living with him it's great....except I'm noticing things... hes changed.",
+      "He seems to be very irresponsible, lazy, and honestly I'm starting to suspect he may have a drinking problem. I keep seeing empty bottles in the trash. I Kinda remember him falling out with his family and idk if thats related but, somethings definately going on- I just don't know if its really my place to say anything. I want to keep investigating and finding out what happened to my parents but I'm also super worried about him."
+    ],
     text: "Itsuki came from a wealthy family but quickly abandoned any interest in a normal career. He discovered that he could make money writing novels and became successful enough to live comfortably—until his irresponsibility caught up with him. He spends money recklessly, misses deadlines, and constantly gets himself into trouble. MC ends up living with him because she needs an inexpensive place to stay, while he needs someone capable of keeping his chaotic life somewhat functional and also enjoys MC cleaning and cooking for him. Her determination gradually becomes his favorite source of inspiration. He turned to drinking because the pressure from his family to assimilate and comply by getting a “real” and important job ruined their relationship, feels guilty for prioritizing his passion and freedom over them. They still support him financially for the most part but his parents refuse to claim or acknowledge him publicly—essentially paying for his silence and cooperation, which makes him feel like he’s still caged."
   },
   Ritsu: {
@@ -243,6 +303,10 @@ function renderNotes(selected = "Toji"){
         <div class="notes-page-meta"><span>Character file</span><span>FILE ${String(currentIndex).padStart(2,"0")} / ${String(keys.length).padStart(2,"0")}</span></div>
         <h3>${current.title}</h3>
         <p>${renderAnnotatedNote(current)}</p>
+        ${current.personalNote ? `<section class="personal-note" aria-label="Personal note">
+          <h4>Personal note</h4>
+          ${current.personalNote.map(paragraph => `<p>${paragraph}</p>`).join("")}
+        </section>` : ""}
       </article>
     </div>`;
 
@@ -251,15 +315,45 @@ function renderNotes(selected = "Toji"){
   });
 }
 
-function show(page){
-  navs.forEach(n=>n.classList.toggle("active",n.dataset.page===page));
+function renderReminderz(){
+  app.innerHTML = pageHeader("Reminderz", "Things I can’t forget.") +
+    `<section class="reminder-list" aria-labelledby="reminder-list-title">
+      <header class="reminder-list-heading">
+        <span>MY LIST</span><span>${reminders.length} reminders</span>
+        <h3 id="reminder-list-title">TO DO:</h3>
+      </header>
+      <ol class="reminder-items">
+        ${reminders.map((reminder, index) => `<li class="reminder-item${index === 0 ? " reminder-debt" : ""}">
+          <span class="reminder-number" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
+          <p>${reminder}</p>
+        </li>`).join("")}
+      </ol>
+    </section>`;
+}
+
+function show(page, moveFocus = true){
+  const selectedApp = phoneApps.find(phoneApp => phoneApp.page === page);
+  if(page !== "home" && !selectedApp) return;
+  shell.classList.toggle("is-home", page === "home");
+  appToolbar.hidden = page === "home";
+  app.setAttribute("aria-label", selectedApp ? selectedApp.title : "Home screen");
+  if(selectedApp){
+    document.getElementById("app-title").textContent = selectedApp.title;
+    document.getElementById("toolbar-symbol").setAttribute("href", `#icon-${page}`);
+  }
+  if(page==="home") renderHome();
   if(page==="maps") renderMaps();
   if(page==="instapic") renderInsta();
   if(page==="calendar") renderEmpty("Calendar","♡","Your schedule and story events can be added here later.");
   if(page==="photos") renderEmpty("Photos","✦","Your gallery is ready. Add your photos to the images folder and connect them here.");
   if(page==="notes") renderNotes();
-  window.scrollTo({top:0,behavior:"smooth"});
+  if(page==="reminderz") renderReminderz();
+  app.scrollTop = 0;
+  if(moveFocus) app.focus({preventScroll:true});
 }
-navs.forEach(n=>n.addEventListener("click",()=>show(n.dataset.page)));
-document.querySelector(".enter-btn").addEventListener("click",()=>show("maps"));
-show("maps");
+document.addEventListener("click", event => {
+  const launcher = event.target.closest("button[data-page]");
+  if(launcher) show(launcher.dataset.page);
+});
+show("home", false);
+window.setInterval(updateClock, 1000);
