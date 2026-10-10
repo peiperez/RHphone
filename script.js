@@ -922,15 +922,58 @@ function renderPhotos(){
     `<section class="photo-album" aria-label="Photo album">
       <div class="photo-album-heading"><span>ALL PHOTOS</span><strong>${photoAlbum.length} ITEMS</strong></div>
       <div class="photo-album-grid">
-        ${photoAlbum.map(photo => `
+        ${photoAlbum.map((photo,index) => `
           <figure class="photo-album-item">
-            <img src="${photo.src}" alt="${photo.title}" loading="lazy">
+            <button class="photo-album-open" type="button" data-photo-index="${index}" aria-label="Enlarge ${photo.title}">
+              <img src="${photo.src}" alt="" loading="lazy">
+            </button>
             <figcaption>${photo.title}</figcaption>
           </figure>
         `).join("")}
       </div>
       <p class="photo-album-note">These are album copies. Photos remain in their original chats and profiles.</p>
-    </section>`;
+    </section>
+    <dialog class="photo-viewer" aria-label="Enlarged photo viewer" tabindex="-1">
+      <button class="photo-viewer-close" type="button" aria-label="Close photo viewer">×</button>
+      <button class="photo-viewer-nav photo-viewer-previous" type="button" aria-label="Previous photo">‹</button>
+      <figure class="photo-viewer-content">
+        <img class="photo-viewer-image" alt="">
+        <figcaption class="photo-viewer-caption"></figcaption>
+      </figure>
+      <button class="photo-viewer-nav photo-viewer-next" type="button" aria-label="Next photo">›</button>
+    </dialog>`;
+
+  const dialog = document.querySelector(".photo-viewer");
+  const viewerImage = dialog.querySelector(".photo-viewer-image");
+  const viewerCaption = dialog.querySelector(".photo-viewer-caption");
+  let activeIndex = 0;
+
+  const showPhoto = index => {
+    activeIndex = (index + photoAlbum.length) % photoAlbum.length;
+    const photo = photoAlbum[activeIndex];
+    viewerImage.src = photo.src;
+    viewerImage.alt = photo.title;
+    viewerCaption.textContent = `${photo.title} · ${activeIndex + 1} of ${photoAlbum.length}`;
+  };
+
+  document.querySelectorAll(".photo-album-open").forEach(button => {
+    button.addEventListener("click", () => {
+      showPhoto(Number(button.dataset.photoIndex));
+      dialog.showModal();
+    });
+  });
+  dialog.querySelector(".photo-viewer-close").addEventListener("click", () => dialog.close());
+  dialog.querySelector(".photo-viewer-previous").addEventListener("click", () => showPhoto(activeIndex - 1));
+  dialog.querySelector(".photo-viewer-next").addEventListener("click", () => showPhoto(activeIndex + 1));
+  dialog.addEventListener("click", event => {
+    if(event.target === dialog) dialog.close();
+  });
+  dialog.addEventListener("keydown", event => {
+    if(event.key === "ArrowLeft" || event.key === "ArrowRight"){
+      event.preventDefault();
+      showPhoto(activeIndex + (event.key === "ArrowRight" ? 1 : -1));
+    }
+  });
 }
 
 function renderReminderz(){

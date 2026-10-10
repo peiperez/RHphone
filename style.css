@@ -97,9 +97,20 @@ button{font:inherit}
 .photo-album-heading strong{color:var(--pink-dark);font-size:10px;letter-spacing:.04em}
 .photo-album-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:12px}
 .photo-album-item{min-width:0;margin:0;overflow:hidden;border:1px solid #f0e1e6;border-radius:13px;background:#fff}
-.photo-album-item img{display:block;width:100%;aspect-ratio:1;object-fit:cover;background:#f4e9ed}
+.photo-album-open{display:block;width:100%;padding:0;border:0;background:#f4e9ed;cursor:zoom-in}
+.photo-album-open img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
+.photo-album-open:focus-visible{outline:3px solid var(--pink-dark);outline-offset:-3px}
 .photo-album-item figcaption{padding:7px 8px;color:#715d66;font-size:10px;line-height:1.35}
 .photo-album-note{margin:0;padding:0 14px 14px;color:var(--muted);font-size:10px;text-align:center}
+.photo-viewer{position:fixed;inset:0;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;width:min(100vw,100%);height:min(100dvh,100%);max-width:none;max-height:none;margin:0;padding:48px 18px 18px;border:0;background:#21191feF;color:#fff}
+.photo-viewer:not([open]){display:none}
+.photo-viewer::backdrop{background:#21191fdd}
+.photo-viewer-close{position:absolute;top:10px;right:12px;display:grid;place-items:center;width:42px;height:42px;border:1px solid #ffffff55;border-radius:50%;background:#ffffff1a;color:#fff;font-size:29px;line-height:1;cursor:pointer}
+.photo-viewer-nav{display:grid;place-items:center;width:42px;height:54px;border:1px solid #ffffff55;border-radius:999px;background:#ffffff1a;color:#fff;font-size:35px;line-height:1;cursor:pointer}
+.photo-viewer-close:hover,.photo-viewer-nav:hover{background:#ffffff35}
+.photo-viewer-content{display:grid;justify-items:center;gap:12px;min-width:0;min-height:0;margin:0}
+.photo-viewer-image{display:block;max-width:100%;max-height:calc(100dvh - 112px);object-fit:contain}
+.photo-viewer-caption{color:#fff;font-size:12px;text-align:center}
 .reminder-number{display:grid;place-items:center;width:30px;height:30px;border-radius:10px;background:rgba(255,255,255,.4);color:#82636d;font-size:11px;font-weight:700;font-variant-numeric:tabular-nums}
 .reminder-item p{margin:2px 0 0;color:#493d42;font-size:13px;line-height:1.6;overflow-wrap:anywhere}
 .files-app{overflow:hidden;border:1px solid rgba(255,255,255,.58);border-radius:22px;background:rgba(255,255,255,.34);box-shadow:0 12px 28px rgba(121,75,96,.08)}
