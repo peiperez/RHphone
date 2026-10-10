@@ -785,7 +785,7 @@ function renderCharacterProfile(name){
   const isPrivate = label === 'official.Tatsuya';
   const stats = label === 'OnlyTojjiichi' ? {posts: 128, following: 197, followers: 1972}
     : label === 'official.Tatsuya' ? {posts: 42, following: 320, followers: '250K'}
-    : label === 'AkohitoSaionji' ? {posts: 402, following: 18, followers: 1200000}
+    : label === 'AkohitoSaionji' ? {posts: 402, following: 18, followers: '53.2 M'}
     : label === 'UndrGrnd_Ry' ? {posts: 42, following: 2, followers: 12800}
     : label === 'Its.Ukiholic' ? {posts: 42, following: 4268, followers: 20400}
     : {posts: 42, following: 320, followers: 980};
