@@ -32,6 +32,12 @@ const reminders = [
 ];
 
 const photoAlbum = [
+  {src:"images/album-new-13.png", title:"New photo 13"},
+  {src:"images/album-new-14.png", title:"New photo 14"},
+  {src:"images/album-new-15.png", title:"New photo 15"},
+  {src:"images/album-new-16.png", title:"New photo 16"},
+  {src:"images/album-new-17.png", title:"New photo 17"},
+  {src:"images/album-new-18.png", title:"New photo 18"},
   {src:"images/album-new-07.png", title:"New photo 7"},
   {src:"images/album-new-08.png", title:"New photo 8"},
   {src:"images/album-new-09.png", title:"New photo 9"},
@@ -982,6 +988,7 @@ function renderPhotos(){
     </section>
     <dialog class="photo-viewer" aria-label="Enlarged photo viewer" tabindex="-1">
       <button class="photo-viewer-close" type="button" aria-label="Close photo viewer">×</button>
+      <button class="photo-viewer-zoom" type="button" aria-label="Enlarge photo">Enlarge</button>
       <button class="photo-viewer-nav photo-viewer-previous" type="button" aria-label="Previous photo">‹</button>
       <figure class="photo-viewer-content">
         <img class="photo-viewer-image" alt="">
@@ -993,6 +1000,7 @@ function renderPhotos(){
   const dialog = document.querySelector(".photo-viewer");
   const viewerImage = dialog.querySelector(".photo-viewer-image");
   const viewerCaption = dialog.querySelector(".photo-viewer-caption");
+  const zoomButton = dialog.querySelector(".photo-viewer-zoom");
   let activeIndex = 0;
 
   const showPhoto = index => {
@@ -1006,10 +1014,18 @@ function renderPhotos(){
   document.querySelectorAll(".photo-album-open").forEach(button => {
     button.addEventListener("click", () => {
       showPhoto(Number(button.dataset.photoIndex));
+      dialog.classList.remove("zoomed");
+      zoomButton.textContent = "Enlarge";
+      zoomButton.setAttribute("aria-label", "Enlarge photo");
       dialog.showModal();
     });
   });
   dialog.querySelector(".photo-viewer-close").addEventListener("click", () => dialog.close());
+  zoomButton.addEventListener("click", () => {
+    const zoomed = dialog.classList.toggle("zoomed");
+    zoomButton.textContent = zoomed ? "Fit screen" : "Enlarge";
+    zoomButton.setAttribute("aria-label", zoomed ? "Fit photo to screen" : "Enlarge photo");
+  });
   dialog.querySelector(".photo-viewer-previous").addEventListener("click", () => showPhoto(activeIndex - 1));
   dialog.querySelector(".photo-viewer-next").addEventListener("click", () => showPhoto(activeIndex + 1));
   dialog.addEventListener("click", event => {

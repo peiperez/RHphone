@@ -106,11 +106,21 @@ button{font:inherit}
 .photo-viewer:not([open]){display:none}
 .photo-viewer::backdrop{background:#21191fdd}
 .photo-viewer-close{position:absolute;top:10px;right:12px;display:grid;place-items:center;width:42px;height:42px;border:1px solid #ffffff55;border-radius:50%;background:#ffffff1a;color:#fff;font-size:29px;line-height:1;cursor:pointer}
+.photo-viewer-zoom{position:absolute;top:15px;right:64px;padding:8px 12px;border:1px solid #ffffff55;border-radius:999px;background:#ffffff1a;color:#fff;font-size:12px;cursor:pointer}
 .photo-viewer-nav{display:grid;place-items:center;width:42px;height:54px;border:1px solid #ffffff55;border-radius:999px;background:#ffffff1a;color:#fff;font-size:35px;line-height:1;cursor:pointer}
-.photo-viewer-close:hover,.photo-viewer-nav:hover{background:#ffffff35}
+.photo-viewer-close:hover,.photo-viewer-nav:hover,.photo-viewer-zoom:hover{background:#ffffff35}
 .photo-viewer-content{display:grid;justify-items:center;gap:12px;min-width:0;min-height:0;margin:0}
-.photo-viewer-image{display:block;max-width:100%;max-height:calc(100dvh - 112px);object-fit:contain}
+.photo-viewer-image{display:block;width:auto;max-width:100%;max-height:calc(100dvh - 140px);object-fit:contain}
 .photo-viewer-caption{color:#fff;font-size:12px;text-align:center}
+.photo-viewer.zoomed{display:block;overflow:auto;padding:62px 12px 24px}
+.photo-viewer.zoomed .photo-viewer-content{width:max-content;max-width:none;margin:0 auto}
+.photo-viewer.zoomed .photo-viewer-image{width:min(140vw,900px);max-width:none;max-height:none}
+.photo-viewer.zoomed .photo-viewer-close,.photo-viewer.zoomed .photo-viewer-zoom,.photo-viewer.zoomed .photo-viewer-nav{position:fixed;z-index:1}
+.photo-viewer.zoomed .photo-viewer-close{top:10px;right:12px}
+.photo-viewer.zoomed .photo-viewer-zoom{top:15px;right:64px}
+.photo-viewer.zoomed .photo-viewer-nav{top:50%;transform:translateY(-50%)}
+.photo-viewer.zoomed .photo-viewer-previous{left:8px}
+.photo-viewer.zoomed .photo-viewer-next{right:8px}
 .reminder-number{display:grid;place-items:center;width:30px;height:30px;border-radius:10px;background:rgba(255,255,255,.4);color:#82636d;font-size:11px;font-weight:700;font-variant-numeric:tabular-nums}
 .reminder-item p{margin:2px 0 0;color:#493d42;font-size:13px;line-height:1.6;overflow-wrap:anywhere}
 .files-app{overflow:hidden;border:1px solid rgba(255,255,255,.58);border-radius:22px;background:rgba(255,255,255,.34);box-shadow:0 12px 28px rgba(121,75,96,.08)}
