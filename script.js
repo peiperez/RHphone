@@ -353,7 +353,7 @@ const messageContactPhotos = {
   Itsuki: "images/itsuki-pfp.png",
   Tatsuya: "images/tatsuya-pfp.png",
   "Itsuki's Annoying Editor": "images/itsuki-editor-pfp.png",
-  Toji: "images/toji-pfp.png"
+  Toji: "images/toji-message-pfp.png"
 };
 const messageContactInitials = {
   MAFIA: "MF",
@@ -578,7 +578,8 @@ function renderCharacterProfile(name){
   const label = match.u.replace(/^@/, '');
   const threadKey = match.threadKey || match.character;
   const bio = match.b;
-  const albumLink = label === 'AkohitoSaionji' ? '<a class="album-link" href="#" aria-disabled="true">Listen to Reflexion <span aria-hidden="true">↗</span></a>' : '';
+  const albumLink = label === 'AkohitoSaionji' ? '<a class="album-link" href="#" data-fake-link>Listen to Reflexion <span aria-hidden="true">↗</span></a>' : '';
+  const novelLink = label === 'Its.Ukiholic' ? '<a class="album-link" href="#" data-fake-link>Read The ONLY ONE <span aria-hidden="true">↗</span></a>' : '';
   const avatar = match.photo ? `<img src="${match.photo}" alt="${match.u}" style="object-position:${match.pos || 'center center'};">` : `<div class="avatar">${label.slice(0,1)}</div>`;
   const thoughtBubble = label === 'AkohitoSaionji' ? `<div class="thought-bubble">Ngl...I'M THE greatesttt!</div>` : '';
   const chatMessages = (messageThreads[threadKey] || []).map(message => `
@@ -613,7 +614,11 @@ function renderCharacterProfile(name){
       </div>
     </dialog>
   `;
-  const postImage = label === 'OnlyTojjiichi' ? `images/toji-post.jpg` : '';
+  const postImage = label === 'OnlyTojjiichi' ? `images/toji-post.jpg`
+    : label === 'Its.Ukiholic' ? `images/itsuki-novel-post.png` : '';
+  const postCaption = label === 'OnlyTojjiichi'
+    ? '"Man I gotta get a new phone...cameras busted "'
+    : 'The ONLY ONE — my newest novel. Link in bio.';
   const isPrivate = label === 'official.Tatsuya';
   const stats = label === 'OnlyTojjiichi' ? {posts: 128, following: 197, followers: 1972}
     : label === 'official.Tatsuya' ? {posts: 42, following: 320, followers: '250K'}
@@ -649,20 +654,22 @@ function renderCharacterProfile(name){
           <button class="following-btn">${isPrivate ? 'Requested' : 'Following'}</button>
         </div>
         <p class="profile-bio">${bio}</p>
+        ${novelLink}
         ${albumLink}
       </div>
     </div>
     ${postImage ? `
       <div class="card toji-post">
         <img class="toji-post-image" src="${postImage}" alt="${label} post">
-        <div class="toji-post-caption">"Man I gotta get a new phone...cameras busted "</div>
+        <div class="toji-post-caption">${postCaption}</div>
       </div>
     ` : ''}
     ${chatThread}</section>`;
 
   document.querySelector(".back-btn").addEventListener("click", () => renderInsta());
-  const fakeAlbumLink = document.querySelector(".album-link");
-  if(fakeAlbumLink) fakeAlbumLink.addEventListener("click", event => event.preventDefault());
+  document.querySelectorAll("[data-fake-link]").forEach(link => {
+    link.addEventListener("click", event => event.preventDefault());
+  });
   const chatDialog = document.querySelector(".chat-dialog");
   if(chatDialog){
     const thread = messageThreads[threadKey];
