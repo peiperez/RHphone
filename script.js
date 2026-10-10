@@ -1279,67 +1279,96 @@ function show(page){
 
 function initializeFavoritePoll(){
   const options = ["Ritsu","Tatsuya","Ryuji","Toji","Itsuki","Can’t pick!"];
-  const storageKey = "rhphone-favorite-character-poll";
   const dialog = document.querySelector(".favorite-poll");
   const status = dialog.querySelector(".favorite-poll-status");
+  const voteButtons = [...dialog.querySelectorAll("[data-poll-option]")];
+  const projectUrl = "https://qufpslbqcvbalgiktoxi.supabase.co";
+  const publishableKey = "sb_publishable_djdsy89sPgIzghL8Zkrf_A_zRz2OgCG";
 
-  const readCounts = () => {
-    let saved;
-    try {
-      saved = localStorage.getItem(storageKey);
-    } catch(error) {
-      status.textContent = "Poll totals are unavailable because this browser blocked local storage.";
-      throw error;
-    }
-    let counts;
-    try {
-      counts = saved === null
-        ? Object.fromEntries(options.map(option => [option, 0]))
-        : JSON.parse(saved);
-    } catch(error) {
-      status.textContent = "Saved poll totals could not be read. Clear this site’s saved data to reset them.";
-      throw error;
-    }
-    if(!counts || options.some(option => !Number.isSafeInteger(counts[option]) || counts[option] < 0)){
-      status.textContent = "Poll totals could not be read from this browser. Clear this site’s saved data to reset them.";
-      throw new Error("Saved favorite-character poll totals are invalid.");
-    }
-    return counts;
+  const setVoteButtonsDisabled = disabled => {
+    voteButtons.forEach(button => button.disabled = disabled);
   };
 
-  const renderCounts = () => {
-    const counts = readCounts();
-    dialog.querySelectorAll("[data-poll-option]").forEach(button => {
-      button.querySelector("strong").textContent = String(counts[button.dataset.pollOption]);
+  const renderCounts = rows => {
+    const counts = new Map(rows.map(row => [row.character, row.votes]));
+    if(options.some(option => !Number.isSafeInteger(counts.get(option)) || counts.get(option) < 0)){
+      throw new Error("The shared poll returned invalid or incomplete vote totals.");
+    }
+    voteButtons.forEach(button => {
+      button.querySelector("strong").textContent = String(counts.get(button.dataset.pollOption));
     });
   };
-
-  dialog.querySelectorAll("[data-poll-option]").forEach(button => {
-    button.addEventListener("click", () => {
-      const counts = readCounts();
-      const option = button.dataset.pollOption;
-      if(!options.includes(option)) throw new Error(`Unknown favorite-character poll option: ${option}`);
-      counts[option] += 1;
-      try {
-        localStorage.setItem(storageKey, JSON.stringify(counts));
-      } catch(error) {
-        status.textContent = "Your vote could not be saved because this browser blocked local storage.";
-        throw error;
-      }
-      renderCounts();
-      status.textContent = `Vote recorded for ${option}. Totals are stored in this browser only.`;
-    });
-  });
-
-  window.addEventListener("storage", event => {
-    if(event.key === storageKey){
-      renderCounts();
-      status.textContent = "Poll totals updated from another tab in this browser.";
-    }
-  });
 
   dialog.showModal();
-  renderCounts();
+  setVoteButtonsDisabled(true);
+  if(!window.supabase?.createClient){
+    status.textContent = "The live poll library could not load. Check your connection and reload the page.";
+    console.error("Supabase client library is unavailable.");
+    return;
+  }
+
+  const client = window.supabase.createClient(projectUrl, publishableKey);
+  const loadCounts = async () => {
+    const {data, error} = await client
+      .from("favorite_character_votes")
+      .select("character,votes")
+      .order("character");
+    if(error) throw error;
+    renderCounts(data);
+  };
+
+  voteButtons.forEach(button => {
+    button.addEventListener("click", async () => {
+      const option = button.dataset.pollOption;
+      setVoteButtonsDisabled(true);
+      status.textContent = `Saving your vote for ${option}…`;
+      try {
+        const {error} = await client.rpc("vote_favorite_character", {p_character:option});
+        if(error) throw error;
+        await loadCounts();
+        status.textContent = `Your vote for ${option} was counted in the shared live poll.`;
+      } catch(error) {
+        console.error("Unable to record favorite-character vote:", error);
+        status.textContent = "Your vote could not be recorded. Please try again.";
+      } finally {
+        setVoteButtonsDisabled(false);
+      }
+    });
+  });
+
+  void loadCounts()
+    .then(() => {
+      setVoteButtonsDisabled(false);
+      status.textContent = "Live totals are shared with all visitors.";
+    })
+    .catch(error => {
+      console.error("Unable to load shared favorite-character poll:", error);
+      setVoteButtonsDisabled(false);
+      status.textContent = "The shared poll is not set up yet or is currently unavailable.";
+    });
+
+  client
+    .channel("favorite-character-votes")
+    .on("postgres_changes", {
+      event:"*",
+      schema:"public",
+      table:"favorite_character_votes"
+    }, () => {
+      void loadCounts()
+        .then(() => {
+          status.textContent = "Live totals updated.";
+        })
+        .catch(error => {
+          console.error("Unable to refresh shared favorite-character poll:", error);
+          status.textContent = "Could not refresh live totals. Please reload the page.";
+        });
+    })
+    .subscribe(channelStatus => {
+      if(channelStatus === "CHANNEL_ERROR" || channelStatus === "TIMED_OUT"){
+        status.textContent = "Live updates are temporarily unavailable; reload to reconnect.";
+        console.error(`Favorite poll realtime subscription status: ${channelStatus}`);
+      }
+    });
 }
 
 navs.forEach(n => n.addEventListener("click", () => show(n.dataset.page)));
