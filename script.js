@@ -31,6 +31,58 @@ const reminders = [
   "Ritsu: whats his deal? Whyd he get into preforming? 2 faced…His DMs- hes so concerned ab me knowing him, mafia?"
 ];
 
+const photoAlbum = [
+  {src:"images/album-upload-01.png", title:"Photo 1"},
+  {src:"images/album-upload-02.png", title:"Photo 2"},
+  {src:"images/album-upload-03.png", title:"Photo 3"},
+  {src:"images/album-upload-04.png", title:"Photo 4"},
+  {src:"images/album-upload-05.png", title:"Photo collage 5"},
+  {src:"images/album-upload-05-01.png", title:"Photo 5 - 1 of 9"},
+  {src:"images/album-upload-05-02.png", title:"Photo 5 - 2 of 9"},
+  {src:"images/album-upload-05-03.png", title:"Photo 5 - 3 of 9"},
+  {src:"images/album-upload-05-04.png", title:"Photo 5 - 4 of 9"},
+  {src:"images/album-upload-05-05.png", title:"Photo 5 - 5 of 9"},
+  {src:"images/album-upload-05-06.png", title:"Photo 5 - 6 of 9"},
+  {src:"images/album-upload-05-07.png", title:"Photo 5 - 7 of 9"},
+  {src:"images/album-upload-05-08.png", title:"Photo 5 - 8 of 9"},
+  {src:"images/album-upload-05-09.png", title:"Photo 5 - 9 of 9"},
+  {src:"images/album-upload-06.png", title:"Photo collage 6"},
+  {src:"images/album-upload-06-01.png", title:"Photo 6 - 1 of 9"},
+  {src:"images/album-upload-06-02.png", title:"Photo 6 - 2 of 9"},
+  {src:"images/album-upload-06-03.png", title:"Photo 6 - 3 of 9"},
+  {src:"images/album-upload-06-04.png", title:"Photo 6 - 4 of 9"},
+  {src:"images/album-upload-06-05.png", title:"Photo 6 - 5 of 9"},
+  {src:"images/album-upload-06-06.png", title:"Photo 6 - 6 of 9"},
+  {src:"images/album-upload-06-07.png", title:"Photo 6 - 7 of 9"},
+  {src:"images/album-upload-06-08.png", title:"Photo 6 - 8 of 9"},
+  {src:"images/album-upload-06-09.png", title:"Photo 6 - 9 of 9"},
+  {src:"images/album-ryuji-city.png", title:"Ryuji in the city"},
+  {src:"images/album-toji-lighter.png", title:"Toji with a lighter"},
+  {src:"images/album-toji-smoking.png", title:"Toji smoking"},
+  {src:"images/album-ryuji-bat.png", title:"Ryuji with a bat"},
+  {src:"images/album-ryuji-resting.png", title:"Ryuji resting"},
+  {src:"images/album-ryuji-driving.png", title:"Ryuji driving"},
+  {src:"images/ryuji-pfp.png", title:"Ryuji's profile photo"},
+  {src:"images/toji-pfp.png", title:"Toji's profile photo"},
+  {src:"images/toji-sister-photo.png", title:"Toji's sister"},
+  {src:"images/toji-message-pfp.png", title:"Toji's message photo"},
+  {src:"images/toji-event-outfit.png", title:"Toji's event outfit"},
+  {src:"images/toji-post.jpg", title:"Toji's InstaPic post"},
+  {src:"images/toji-contact-photo.png", title:"Toji's contact photo"},
+  {src:"images/itsuki-pfp.png", title:"Itsuki's profile photo"},
+  {src:"images/itsuki-message-pfp.png", title:"Itsuki's message photo"},
+  {src:"images/itsuki-contact-photo.png", title:"Itsuki's contact photo"},
+  {src:"images/itsuki-editor-pfp.png", title:"Itsuki's editor photo"},
+  {src:"images/itsuki-novel-post.png", title:"Itsuki's novel post"},
+  {src:"images/tatsuya-pfp.png", title:"Tatsuya's profile photo"},
+  {src:"images/tatsuya-message-pfp.png", title:"Tatsuya's message photo"},
+  {src:"images/tatsuya-final-photo.png", title:"Tatsuya's selfie"},
+  {src:"images/tatsuya-ranking.png", title:"Tatsuya's ranking screenshot"},
+  {src:"images/tatsuya-magazine.png", title:"Tatsuya's magazine photo"},
+  {src:"images/akihito-ritsu.png", title:"Akihito's profile photo"},
+  {src:"images/midnight-tsuki-pfp.png", title:"Midnight Tsuki's profile photo"}
+];
+
 const messageThreads = {
   Toji: [
     {sender:"Toji", text:"Hey, can you pick up my shift today?"},
@@ -865,6 +917,22 @@ function renderEmpty(title, icon, desc){
     `<div class="empty"><div class="empty-inner"><div class="big">${icon}</div><h3>Coming soon</h3><p>${desc}</p></div></div>`;
 }
 
+function renderPhotos(){
+  app.innerHTML = pageHeader("Photos","A saved copy of the photos and images shared throughout your phone.") +
+    `<section class="photo-album" aria-label="Photo album">
+      <div class="photo-album-heading"><span>ALL PHOTOS</span><strong>${photoAlbum.length} ITEMS</strong></div>
+      <div class="photo-album-grid">
+        ${photoAlbum.map(photo => `
+          <figure class="photo-album-item">
+            <img src="${photo.src}" alt="${photo.title}" loading="lazy">
+            <figcaption>${photo.title}</figcaption>
+          </figure>
+        `).join("")}
+      </div>
+      <p class="photo-album-note">These are album copies. Photos remain in their original chats and profiles.</p>
+    </section>`;
+}
+
 function renderReminderz(){
   app.innerHTML = pageHeader("Reminderz","A running list of things to do and questions to answer.") +
     `<section class="reminder-list" aria-labelledby="reminder-list-title">
@@ -1066,7 +1134,7 @@ function show(page){
   } else if(page === "calendar") {
     renderEmpty("Calendar","♡","Your schedule and story events can be added here later.");
   } else if(page === "photos") {
-    renderEmpty("Photos","✦","Your gallery is ready. Add your photos to the images folder and connect them here.");
+    renderPhotos();
   } else if(page === "notes") {
     renderNotes();
   } else if(page === "reminderz") {
