@@ -664,6 +664,66 @@ function renderMessageContactAvatar(contact, className){
     : `<span class="${className} ${className}-initials" aria-hidden="true">${messageContactInitials[contact] || escapeHTML(contact.slice(0, 1))}</span>`;
 }
 
+let messageNotificationTimeout;
+
+function showMessageNotification(contact, message, newMessageCount){
+  const existingNotification = document.querySelector(".message-notification");
+  if(existingNotification) existingNotification.remove();
+  window.clearTimeout(messageNotificationTimeout);
+
+  const notification = document.createElement("div");
+  notification.className = "message-notification";
+  notification.setAttribute("role", "region");
+  notification.setAttribute("aria-label", "New message notification");
+  notification.setAttribute("aria-live", "polite");
+
+  const photo = messageContactPhotos[contact];
+  const avatar = document.createElement(photo ? "img" : "span");
+  avatar.className = "message-notification-avatar";
+  if(photo){
+    avatar.src = photo;
+    avatar.alt = "";
+  } else {
+    avatar.setAttribute("aria-hidden", "true");
+    avatar.textContent = messageContactInitials[contact] || contact.slice(0, 1);
+  }
+
+  const copy = document.createElement("span");
+  copy.className = "message-notification-copy";
+  const title = document.createElement("strong");
+  title.textContent = newMessageCount > 1 ? `${contact} · ${newMessageCount} new messages` : `${contact} · Messages`;
+  const preview = document.createElement("span");
+  preview.textContent = message.text;
+  copy.append(title, preview);
+
+  const openButton = document.createElement("button");
+  openButton.className = "message-notification-open";
+  openButton.type = "button";
+  openButton.setAttribute("aria-label", `Open ${contact} conversation`);
+  openButton.append(avatar, copy);
+  openButton.addEventListener("click", () => {
+    window.clearTimeout(messageNotificationTimeout);
+    notification.remove();
+    show("messages");
+    renderMessagesConversation(contact);
+    app.scrollTo({top:app.scrollHeight, behavior:"smooth"});
+  });
+
+  const closeButton = document.createElement("button");
+  closeButton.className = "message-notification-close";
+  closeButton.type = "button";
+  closeButton.setAttribute("aria-label", "Dismiss message notification");
+  closeButton.textContent = "×";
+  closeButton.addEventListener("click", () => {
+    window.clearTimeout(messageNotificationTimeout);
+    notification.remove();
+  });
+
+  notification.append(openButton, closeButton);
+  document.querySelector(".site-shell").append(notification);
+  messageNotificationTimeout = window.setTimeout(() => notification.remove(), 4500);
+}
+
 const characterNotes = {
   Itsuki: {
     title: "ITSUKI",
@@ -827,13 +887,13 @@ function renderMessagesConversation(contact){
   }
   const contactDetails = messageContactDetails[contact];
 
-  const messages = thread.map(message => message.system
+  const messages = thread.map((message, index) => message.system
     ? `<div class="sms-timeskip">${escapeHTML(message.text)}</div>`
     : message.reaction
       ? `<div class="sms-reaction">${escapeHTML(message.text)}</div>`
       : `<div class="sms-bubble ${message.sender === "MC" ? "sms-sent" : "sms-received"}${message.image || message.photoPlaceholder ? " sms-photo-message" : ""}">${
         message.image
-          ? `<img class="sms-photo" src="${message.image}" alt="${escapeHTML(message.imageAlt)}">`
+          ? `<img class="sms-photo" src="${message.image}" alt="${escapeHTML(message.imageAlt)}" data-message-index="${index}">${message.liked ? '<span class="sms-photo-heart" aria-hidden="true">♥</span><span class="sms-photo-liked-badge" aria-hidden="true">♥ Liked</span>' : ''}`
           : message.photoPlaceholder
             ? `<span class="sms-photo-placeholder">${escapeHTML(message.photoPlaceholder)}</span>`
             : escapeHTML(message.text)
@@ -854,14 +914,18 @@ function renderMessagesConversation(contact){
     </section>`;
 
   document.querySelector(".sms-back").addEventListener("click", renderMessages);
-    document.querySelectorAll(".sms-photo").forEach(image => {
-      image.addEventListener("dblclick", () => {
-        const replies = messagePhotoReplies[contact];
-        if(!replies) return;
-        thread.push(...replies.map(message => ({...message})));
-        renderMessagesConversation(contact);
-        app.scrollTo({top:app.scrollHeight, behavior:"smooth"});
-      });
+  document.querySelectorAll(".sms-photo").forEach(image => {
+    image.addEventListener("dblclick", () => {
+      const message = thread[Number(image.dataset.messageIndex)];
+      if(!message || message.liked) return;
+
+      message.liked = true;
+      const replies = messagePhotoReplies[contact] || [];
+      if(replies.length) thread.push(...replies.map(reply => ({...reply})));
+      renderMessagesConversation(contact);
+      app.scrollTo({top:app.scrollHeight, behavior:"smooth"});
+      if(replies.length) showMessageNotification(contact, replies[replies.length - 1], replies.length);
+    });
     });
 }
 
@@ -1196,6 +1260,7 @@ function renderHome(){
     {page:"notes", label:"Notes", icon:"✦", color:"yellow"},
     {page:"reminderz", label:"Reminderz", icon:"✓", color:"mint"},
     {page:"files", label:"Files", icon:"📁", color:"blue"},
+    {url:"https://ooc.ai/s/6ac3781955391a2fddd84240", label:"Books Now!", icon:"📚", color:"lavender"},
   ];
 
   app.innerHTML = `
@@ -1209,10 +1274,15 @@ function renderHome(){
 
       <div class="home-grid">
         ${homeApps.map((item) => `
-          <button class="home-app home-app-${item.color}" type="button" data-page="${item.page}" aria-label="Open ${item.label}">
+          ${item.url
+            ? `<a class="home-app home-app-${item.color}" href="${item.url}" target="_blank" rel="noopener noreferrer" aria-label="Open ${item.label}">
+                <span class="home-app-icon">${item.icon}</span>
+                <span>${item.label}</span>
+              </a>`
+            : `<button class="home-app home-app-${item.color}" type="button" data-page="${item.page}" aria-label="Open ${item.label}">
             <span class="home-app-icon">${item.icon}</span>
             <span>${item.label}</span>
-          </button>
+          </button>`}
         `).join("")}
       </div>
 
@@ -1222,7 +1292,7 @@ function renderHome(){
       </div>
     </section>`;
 
-  document.querySelectorAll(".home-app").forEach(button => {
+  document.querySelectorAll(".home-app[data-page]").forEach(button => {
     button.addEventListener("click", () => show(button.dataset.page));
   });
 

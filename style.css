@@ -450,6 +450,7 @@ body{
   border-radius:22px;
   background:rgba(255,255,255,.32);
   color:#483d44;
+  text-decoration:none;
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.17);
   cursor:pointer;
 }
@@ -496,11 +497,24 @@ body{
 .sms-bubble{max-width:84%;padding:10px 13px;border-radius:18px;font-size:13px;line-height:1.4;overflow-wrap:anywhere;}
 .sms-sent{align-self:flex-end;border-bottom-right-radius:6px;background:#d7e9cf;color:#28352b;}
 .sms-received{align-self:flex-start;border-bottom-left-radius:6px;background:rgba(255,255,255,.88);color:var(--ink);}
-.sms-photo-message{padding:6px;}
+.sms-photo-message{position:relative;padding:6px;}
 .sms-photo{display:block;width:min(220px,62vw);max-height:280px;border-radius:13px;object-fit:cover;}
+.sms-photo-heart{position:absolute;top:50%;left:50%;z-index:1;color:#e04f7b;font-size:66px;line-height:1;text-shadow:0 2px 10px rgba(255,255,255,.9),0 3px 12px rgba(95,30,55,.28);opacity:0;pointer-events:none;transform:translate(-50%,-50%);animation:sms-heart-pop .9s ease-out both;}
+.sms-photo-liked-badge{position:absolute;right:10px;bottom:10px;padding:4px 8px;border-radius:999px;background:rgba(65,42,53,.78);color:#fff;font-size:10px;font-weight:700;pointer-events:none;}
+.sms-photo-liked-badge::first-letter{color:#ff9bb8;}
 .sms-photo-placeholder{display:grid;place-items:center;width:min(220px,62vw);min-height:140px;padding:12px;border:1px dashed rgba(121,75,96,.35);border-radius:13px;background:rgba(255,255,255,.72);color:var(--muted);font-size:12px;text-align:center;}
 .sms-reaction{align-self:center;padding:6px 10px;border-radius:12px;background:rgba(239,216,225,.8);color:var(--pink-dark);font-size:11px;text-align:center;}
 .sms-timeskip{align-self:center;margin:10px 0 8px;color:var(--muted);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
+.message-notification{position:absolute;top:58px;left:16px;right:16px;z-index:40;display:flex;align-items:center;gap:10px;padding:11px 12px;border:1px solid rgba(255,255,255,.85);border-radius:16px;background:rgba(255,255,255,.96);box-shadow:0 8px 24px rgba(57,39,49,.24);animation:message-notification-in .24s ease-out both;}
+.message-notification-open{display:flex;align-items:center;gap:10px;min-width:0;flex:1;padding:0;border:0;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer;}
+.message-notification-open:focus-visible{outline:2px solid var(--pink-dark);outline-offset:3px;border-radius:8px;}
+.message-notification-avatar{display:grid;width:38px;height:38px;flex:0 0 auto;place-items:center;border-radius:50%;background:#ead6d9;color:var(--pink-dark);font-size:12px;font-weight:700;object-fit:cover;}
+.message-notification-copy{display:grid;gap:3px;min-width:0;}
+.message-notification-copy strong{overflow:hidden;color:var(--ink);font-size:12px;text-overflow:ellipsis;white-space:nowrap;}
+.message-notification-copy span{overflow:hidden;color:var(--muted);font-size:11px;text-overflow:ellipsis;white-space:nowrap;}
+.message-notification-close{width:28px;height:28px;flex:0 0 auto;border:0;border-radius:50%;background:#f7edf1;color:var(--muted);font-size:20px;line-height:1;cursor:pointer;}
+@keyframes sms-heart-pop{0%{opacity:0;transform:translate(-50%,-50%) scale(.25)}35%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}65%{opacity:1;transform:translate(-50%,-50%) scale(.9)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.05)}}
+@keyframes message-notification-in{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
 .home-footer{
   display:flex;
   align-items:center;
@@ -662,4 +676,5 @@ button:focus-visible{outline:3px solid #946379;outline-offset:4px}
 @media(prefers-reduced-motion:reduce){
  html{scroll-behavior:auto}
  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+ .sms-photo-heart{opacity:1;font-size:40px}
 }
