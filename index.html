@@ -51,6 +51,26 @@
     <button class="home-indicator" type="button" data-page="home" aria-label="Return to home screen"><span></span></button>
   </div>
 
+  <dialog class="favorite-poll" aria-labelledby="favorite-poll-title">
+    <form method="dialog">
+      <span class="favorite-poll-kicker">QUICK POLL</span>
+      <h2 id="favorite-poll-title">Who’s your favorite character?</h2>
+      <p class="favorite-poll-description">Pick an option to add your vote and see the totals.</p>
+      <div class="favorite-poll-options" role="group" aria-label="Favorite character">
+        <button type="button" data-poll-option="Ritsu">Ritsu <strong>0</strong></button>
+        <button type="button" data-poll-option="Tatsuya">Tatsuya <strong>0</strong></button>
+        <button type="button" data-poll-option="Ryuji">Ryuji <strong>0</strong></button>
+        <button type="button" data-poll-option="Toji">Toji <strong>0</strong></button>
+        <button type="button" data-poll-option="Itsuki">Itsuki <strong>0</strong></button>
+        <button type="button" data-poll-option="Can’t pick!">Can’t pick! <strong>0</strong></button>
+      </div>
+      <p class="favorite-poll-status" aria-live="polite">Votes are saved in this browser only and aren’t shared with other visitors.</p>
+      <div class="favorite-poll-actions">
+        <button class="favorite-poll-close" type="submit">Continue to story</button>
+      </div>
+    </form>
+  </dialog>
+
   <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <symbol id="icon-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z"/></symbol>
     <symbol id="icon-maps" viewBox="0 0 24 24"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3ZM9 3v15m6-12v15"/></symbol>
@@ -62,6 +82,6 @@
     <symbol id="icon-reminderz" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="m6 8 1 1 2-2m-3 7 1 1 2-2m3-5h6m-6 6h6m-6 4h6"/></symbol>
     <symbol id="icon-files" viewBox="0 0 24 24"><path d="M3 6a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M3 9h18"/></symbol>
   </svg>
-  <script src="script.js?v=midnight-tsuki-dialogue-photos"></script>
+  <script src="script.js?v=local-favorite-poll"></script>
 </body>
 </html>

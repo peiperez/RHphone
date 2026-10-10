@@ -1263,6 +1263,71 @@ function show(page){
   app.scrollTo({top:0,behavior:"smooth"});
 }
 
+function initializeFavoritePoll(){
+  const options = ["Ritsu","Tatsuya","Ryuji","Toji","Itsuki","Can’t pick!"];
+  const storageKey = "rhphone-favorite-character-poll";
+  const dialog = document.querySelector(".favorite-poll");
+  const status = dialog.querySelector(".favorite-poll-status");
+
+  const readCounts = () => {
+    let saved;
+    try {
+      saved = localStorage.getItem(storageKey);
+    } catch(error) {
+      status.textContent = "Poll totals are unavailable because this browser blocked local storage.";
+      throw error;
+    }
+    let counts;
+    try {
+      counts = saved === null
+        ? Object.fromEntries(options.map(option => [option, 0]))
+        : JSON.parse(saved);
+    } catch(error) {
+      status.textContent = "Saved poll totals could not be read. Clear this site’s saved data to reset them.";
+      throw error;
+    }
+    if(!counts || options.some(option => !Number.isSafeInteger(counts[option]) || counts[option] < 0)){
+      status.textContent = "Poll totals could not be read from this browser. Clear this site’s saved data to reset them.";
+      throw new Error("Saved favorite-character poll totals are invalid.");
+    }
+    return counts;
+  };
+
+  const renderCounts = () => {
+    const counts = readCounts();
+    dialog.querySelectorAll("[data-poll-option]").forEach(button => {
+      button.querySelector("strong").textContent = String(counts[button.dataset.pollOption]);
+    });
+  };
+
+  dialog.querySelectorAll("[data-poll-option]").forEach(button => {
+    button.addEventListener("click", () => {
+      const counts = readCounts();
+      const option = button.dataset.pollOption;
+      if(!options.includes(option)) throw new Error(`Unknown favorite-character poll option: ${option}`);
+      counts[option] += 1;
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(counts));
+      } catch(error) {
+        status.textContent = "Your vote could not be saved because this browser blocked local storage.";
+        throw error;
+      }
+      renderCounts();
+      status.textContent = `Vote recorded for ${option}. Totals are stored in this browser only.`;
+    });
+  });
+
+  window.addEventListener("storage", event => {
+    if(event.key === storageKey){
+      renderCounts();
+      status.textContent = "Poll totals updated from another tab in this browser.";
+    }
+  });
+
+  dialog.showModal();
+  renderCounts();
+}
+
 navs.forEach(n => n.addEventListener("click", () => show(n.dataset.page)));
 dockApps.forEach(button => button.addEventListener("click", () => show(button.dataset.page)));
 if(homeIndicator) homeIndicator.addEventListener("click", () => show("home"));
@@ -1273,3 +1338,4 @@ document.querySelector(".enter-btn").addEventListener("click", () => {
 updateClock();
 setInterval(updateClock, 30000);
 show("home");
+initializeFavoritePoll();
