@@ -56,6 +56,7 @@ const photoAlbum = [
   {src:"images/album-upload-06-07.png", title:"Photo 6 - 7 of 9"},
   {src:"images/album-upload-06-08.png", title:"Photo 6 - 8 of 9"},
   {src:"images/album-upload-06-09.png", title:"Photo 6 - 9 of 9"},
+  {src:"images/midnight-tsuki-maid-photo.png", title:"Ritsu in the event outfit"},
   {src:"images/album-ryuji-city.png", title:"Ryuji in the city"},
   {src:"images/album-toji-lighter.png", title:"Toji with a lighter"},
   {src:"images/album-toji-smoking.png", title:"Toji smoking"},
@@ -306,7 +307,40 @@ const messageThreads = {
     {sender:"MC", text:"Second of all, your ‘charms’ do nothing to me"},
     {sender:"Ritsu", text:"its ok"},
     {sender:"Ritsu", text:"i know"},
-    {sender:"Ritsu", text:"and thats all that matters 😈"}
+    {sender:"Ritsu", text:"and thats all that matters 😈"},
+    {sender:"Ritsu", text:"i saw u at work today"},
+    {sender:"Ritsu", text:"it was rlly cute~~"},
+    {sender:"MC", text:"HUH!?"},
+    {sender:"MC", text:"I didn’t even notice you were there"},
+    {sender:"Ritsu", text:"whatttttt"},
+    {sender:"Ritsu", text:"how could u not notice my shining presence"},
+    {sender:"MC", text:"I was kind of distracted by the ridiculous get up I was wearing"},
+    {sender:"Ritsu", text:"ridiculous?"},
+    {sender:"Ritsu", text:"the outfit is fine, it is on the wearer to pull it off properly"},
+    {sender:"Ritsu", text:"here, look"},
+    {sender:"Ritsu", image:"images/midnight-tsuki-maid-photo.png", imageAlt:"Ritsu wearing a pink maid outfit with cat ears", liked:true},
+    {sender:"Ritsu", text:"see, adorable"},
+    {sender:"MC", text:"..."},
+    {sender:"MC", text:"Sure"},
+    {sender:"Ritsu", text:"hehe, see"},
+    {sender:"Ritsu", text:"u liked it"},
+    {sender:"Ritsu", text:"ill keep that in mind 😉"},
+    {sender:"MC", text:"At least weird men weren’t trying to look up your skirt the whole time"},
+    {sender:"MC", text:"That is kinda distracting"},
+    {sender:"MC", text:"So sorry I didn’t notice your ‘beauty’"},
+    {sender:"Ritsu", text:"they were doing that?"},
+    {sender:"Ritsu", text:"of course they were"},
+    {sender:"Ritsu", text:"dont let it bother you"},
+    {sender:"Ritsu", text:"that just means you were so beautiful they couldnt ignore it"},
+    {sender:"MC", text:"I’m not you"},
+    {sender:"MC", text:"I would love to be ignored"},
+    {sender:"Ritsu", text:"just point me towards them next time"},
+    {sender:"Ritsu", text:"they will be stopped by my dazzling beauty"},
+    {sender:"Ritsu", text:"dont even worry cutie~ 😉"},
+    {sender:"MC", text:"Uh-huh"},
+    {sender:"MC", text:"I’ll totally do that"},
+    {sender:"MC", text:"Thanks Ritsu"},
+    {sender:"Ritsu", text:"np LOZERRRR~~~ 😉"}
   ],
   RitsuMain: [
     {sender:"Ritsu", text:"Thought ya didn't know who I was? 😏"},
@@ -804,6 +838,7 @@ function renderCharacterProfile(name){
         ${message.image
           ? `<img class="chat-shared-photo" src="${message.image}" alt="${escapeHTML(message.imageAlt)}">`
           : `<p>${message.sticker ? '<span class="chat-sticker" role="img" aria-label="Cute sticker">🐱💕</span>' : escapeHTML(message.text)}</p>`}
+        ${message.liked ? '<span class="chat-liked">MC ❤️ the photo</span>' : ''}
         ${message.disliked ? '<span class="chat-seen">Itsuki disliked this message</span>' : ''}
         ${message.seen ? '<span class="chat-seen">Seen</span>' : ''}
       </div>
