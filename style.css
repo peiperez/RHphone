@@ -449,6 +449,10 @@ body{
 .sms-bubble{max-width:84%;padding:10px 13px;border-radius:18px;font-size:13px;line-height:1.4;overflow-wrap:anywhere;}
 .sms-sent{align-self:flex-end;border-bottom-right-radius:6px;background:#d7e9cf;color:#28352b;}
 .sms-received{align-self:flex-start;border-bottom-left-radius:6px;background:rgba(255,255,255,.88);color:var(--ink);}
+.sms-photo-message{padding:6px;}
+.sms-photo{display:block;width:min(220px,62vw);max-height:280px;border-radius:13px;object-fit:cover;}
+.sms-photo-placeholder{display:grid;place-items:center;width:min(220px,62vw);min-height:140px;padding:12px;border:1px dashed rgba(121,75,96,.35);border-radius:13px;background:rgba(255,255,255,.72);color:var(--muted);font-size:12px;text-align:center;}
+.sms-reaction{align-self:center;padding:6px 10px;border-radius:12px;background:rgba(239,216,225,.8);color:var(--pink-dark);font-size:11px;text-align:center;}
 .sms-timeskip{align-self:center;margin:10px 0 8px;color:var(--muted);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
 .home-footer{
   display:flex;

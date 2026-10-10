@@ -177,6 +177,75 @@ const smsThreads = {
     {sender:"Itsuki", text:"i will do it"},
     {sender:"MC", text:"Fine, I won’t"},
     {sender:"MC", text:"Jeez"}
+  ],
+  "Itsuki's Annoying Editor": [
+    {sender:"IP", text:"Hello, this is Itsuki’s publisher. I am reaching out to ask you about Itsuki’s status. He is meant to submit a rough draft of his manuscript by tomorrow to begin the editing process. He has been ignoring all of my texts and calls. I just wanted to know if you could reach him and tell him to please respond to me."},
+    {sender:"MC", text:"I’ll go talk to him right now"},
+    {sender:"MC", text:"Give me a minute"},
+    {sender:"Timeskip", text:"Short time skip", system:true},
+    {sender:"MC", text:"I have been told not to contact you"},
+    {sender:"IP", text:"Of course he would do something like this"},
+    {sender:"IP", text:"I’m so sorry but I need you to do something"},
+    {sender:"IP", text:"I really need this"},
+    {sender:"IP", text:"I will get fired if he turns another manuscript in late"},
+    {sender:"IP", text:"Just get into his computer and send it to me or something"},
+    {sender:"IP", text:"Please"},
+    {sender:"MC", text:"If he finds out I did that I would lose my house"}
+  ],
+  Tatsuya: [
+    {sender:"MC", text:"Hey, so uhm..."},
+    {sender:"MC", text:"You won’t accept my follow request"},
+    {sender:"MC", text:"Why is that?"},
+    {sender:"Tatsuya", text:"Who is this?"},
+    {sender:"Tatsuya", text:"How did you acquire this number?"},
+    {sender:"MC", text:"YOU DON’T HAVE MY NUMBER SAVED!?"},
+    {sender:"MC", text:"We’ve known each other for how long and you never thought to give me a contact??? 🙄"},
+    {sender:"Tatsuya", text:"Well now I know whose number this is. Thank you for answering the question. Please refrain from reaching out."},
+    {sender:"MC", text:"Yeah, yeah"},
+    {sender:"MC", text:"Now why won’t you accept my follow request"},
+    {sender:"MC", text:"I could’ve sworn we were already mutuals, but I guess the app decided we shouldn’t be friends"},
+    {sender:"Tatsuya", text:"That was not the app. I am too public to follow you given the scandal with the mafia."},
+    {sender:"MC", text:"HUH!?"},
+    {sender:"MC", text:"You can’t be serious"},
+    {sender:"MC", text:"We’ve been friends for yearsssss"},
+    {sender:"MC", text:"Why is it suddenly a problem now???"},
+    {sender:"Tatsuya", text:"You are no longer an important figure. I cannot be publicly associated with you. You are lucky I even responded to your text; I am a busy man."},
+    {sender:"Tatsuya", text:"It’s just business."},
+    {sender:"MC", text:"That’s all I am?"},
+    {sender:"MC", text:"Business?"},
+    {sender:"Tatsuya", text:"Yes."},
+    {sender:"MC", text:"Okay, sorry for bothering you"},
+    {sender:"MC", text:"I didn’t realize I wasn’t good press anymore"},
+    {sender:"MC", text:"I need a photo for your contact"},
+    {sender:"MC", text:"I’ve gone all these years without one, but I am trying to get one for all of my contacts"},
+    {sender:"Tatsuya", text:"Get a photo yourself. There are already plenty of photos of me to choose from. Plus I don’t plan on replying to you anyways."},
+    {sender:"MC", text:"Okay, how about this one?"},
+    {sender:"MC", image:"images/tatsuya-magazine.png", imageAlt:"Tatsuya on a magazine cover"},
+    {sender:"Tatsuya", text:"No. Not that one."},
+    {sender:"Tatsuya", text:"Did you have to pick the magazine photo? I don’t even like that one, I have been trying to get it changed."},
+    {sender:"Tatsuya", text:"Do not use that photo."},
+    {sender:"MC", text:"Okay, okay fine"},
+    {sender:"MC", text:"How about this one?"},
+    {sender:"MC", image:"images/tatsuya-ranking.png", imageAlt:"Screenshot of Tatsuya's ranking webpage"},
+    {sender:"Tatsuya", text:"Do not use that one either. It is just a screenshot of a webpage. Find an actual photo of me. It cannot be this difficult."},
+    {sender:"Tatsuya", text:"Tatsuya liked a message (liked the photo)", reaction:true},
+    {sender:"MC", text:"Did you just like that photo???"},
+    {sender:"Tatsuya", text:"What are you talking about?"},
+    {sender:"MC", text:"It says you like a message"},
+    {sender:"MC", text:"You wanted to save that photo of your ranking???"},
+    {sender:"MC", text:"Just find the website yourself, omg"},
+    {sender:"Tatsuya", text:"I just needed record of this because they did not ask for permission to use my name a likeness. I was going to reach out to the website or file a cease and desist."},
+    {sender:"MC", text:"Right...."},
+    {sender:"MC", text:"I’m sure you didn’t just like the ego boost it gave you"},
+    {sender:"Tatsuya", text:"My ego does not need boosting; I just need to contact the website owner."},
+    {sender:"MC", text:"Sure"},
+    {sender:"MC", text:"I’ll let you have that"},
+    {sender:"MC", text:"Now if you want me to use a different pic then send me one to use"},
+    {sender:"MC", text:"This is all I have"},
+    {sender:"MC", text:"I did my very best"},
+    {sender:"Tatsuya", image:"images/tatsuya-final-photo.png", imageAlt:"Photo of Tatsuya"},
+    {sender:"MC", text:"MC ❤️ the photo", reaction:true},
+    {sender:"Tatsuya", text:"Just use this one."}
   ]
 };
 const messageAccountDetails = {
@@ -320,8 +389,21 @@ function renderInsta(){
 }
 
 function renderMessages(){
-  const itsukiThread = smsThreads.Itsuki;
-  const lastMessage = itsukiThread[itsukiThread.length - 1];
+  const contacts = Object.entries(smsThreads).map(([contact, thread]) => {
+    const lastMessage = thread[thread.length - 1] || {text:"No messages yet."};
+    const preview = lastMessage.text || (lastMessage.image || lastMessage.photoPlaceholder ? "Photo" : "No messages yet.");
+    const photo = contact === "Tatsuya" ? "images/tatsuya-pfp.png" : "images/itsuki-pfp.png";
+    return `
+      <button class="messages-contact" type="button" data-contact="${contact}">
+        <img src="${photo}" alt="">
+        <span class="messages-contact-copy">
+          <strong>${escapeHTML(contact)}</strong>
+          <span>${escapeHTML(preview)}</span>
+        </span>
+        <span class="messages-contact-chevron" aria-hidden="true">›</span>
+      </button>
+    `;
+  }).join("");
 
   app.innerHTML = `
     <section class="messages-app" aria-label="Messages contacts">
@@ -329,17 +411,12 @@ function renderMessages(){
         <span>YOUR CONVERSATIONS</span>
         <h2>Contacts</h2>
       </div>
-      <button class="messages-contact" type="button" data-contact="Itsuki">
-        <img src="images/itsuki-pfp.png" alt="">
-        <span class="messages-contact-copy">
-          <strong>Itsuki</strong>
-          <span>${escapeHTML(lastMessage.text)}</span>
-        </span>
-        <span class="messages-contact-chevron" aria-hidden="true">›</span>
-      </button>
+      ${contacts}
     </section>`;
 
-  document.querySelector(".messages-contact").addEventListener("click", () => renderMessagesConversation("Itsuki"));
+  document.querySelectorAll(".messages-contact").forEach(contactButton => {
+    contactButton.addEventListener("click", () => renderMessagesConversation(contactButton.dataset.contact));
+  });
 }
 
 function renderMessagesConversation(contact){
@@ -349,16 +426,25 @@ function renderMessagesConversation(contact){
     return;
   }
 
+  const photo = contact === "Tatsuya" ? "images/tatsuya-pfp.png" : "images/itsuki-pfp.png";
   const messages = thread.map(message => message.system
     ? `<div class="sms-timeskip">${escapeHTML(message.text)}</div>`
-    : `<div class="sms-bubble ${message.sender === "MC" ? "sms-sent" : "sms-received"}">${escapeHTML(message.text)}</div>`
+    : message.reaction
+      ? `<div class="sms-reaction">${escapeHTML(message.text)}</div>`
+      : `<div class="sms-bubble ${message.sender === "MC" ? "sms-sent" : "sms-received"}${message.image || message.photoPlaceholder ? " sms-photo-message" : ""}">${
+        message.image
+          ? `<img class="sms-photo" src="${message.image}" alt="${escapeHTML(message.imageAlt)}">`
+          : message.photoPlaceholder
+            ? `<span class="sms-photo-placeholder">${escapeHTML(message.photoPlaceholder)}</span>`
+            : escapeHTML(message.text)
+      }</div>`
   ).join("");
 
   app.innerHTML = `
     <section class="messages-app" aria-label="Messages conversation with ${escapeHTML(contact)}">
       <button class="sms-back" type="button">‹ <span>Contacts</span></button>
       <header class="sms-contact-header">
-        <img src="images/itsuki-pfp.png" alt="">
+        <img src="${photo}" alt="">
         <h2>${escapeHTML(contact)}</h2>
       </header>
       <div class="sms-thread" aria-label="Conversation with ${escapeHTML(contact)}">
@@ -652,7 +738,9 @@ function renderHome(){
 
   const enterBtn = document.querySelector(".story-widget .enter-btn");
   if(enterBtn) {
-    enterBtn.addEventListener("click", () => show("maps"));
+    enterBtn.addEventListener("click", () => {
+      window.open("https://ooc.ai/s/6ac87e9bdb2c408276d12229", "_blank", "noopener,noreferrer");
+    });
   }
 }
 
@@ -703,7 +791,9 @@ navs.forEach(n => n.addEventListener("click", () => show(n.dataset.page)));
 dockApps.forEach(button => button.addEventListener("click", () => show(button.dataset.page)));
 if(homeIndicator) homeIndicator.addEventListener("click", () => show("home"));
 if(homeBack) homeBack.addEventListener("click", () => show("home"));
-document.querySelector(".enter-btn").addEventListener("click", () => show("maps"));
+document.querySelector(".enter-btn").addEventListener("click", () => {
+  window.open("https://ooc.ai/s/6ac87e9bdb2c408276d12229", "_blank", "noopener,noreferrer");
+});
 updateClock();
 setInterval(updateClock, 30000);
 show("home");
