@@ -435,7 +435,8 @@ body{
 .messages-page-heading>span{color:var(--muted);font-size:9px;font-weight:700;letter-spacing:.16em;}
 .messages-page-heading h2{margin:4px 0 0;font-family:"Playfair Display",serif;font-size:30px;}
 .messages-contact{display:flex;align-items:center;gap:12px;width:100%;padding:12px;border:1px solid rgba(255,255,255,.6);border-radius:18px;background:rgba(255,255,255,.56);color:var(--ink);text-align:left;cursor:pointer;}
-.messages-contact img,.sms-contact-header img{width:46px;height:46px;flex:0 0 auto;border-radius:50%;object-fit:cover;object-position:center 16%;}
+.messages-contact-avatar,.sms-contact-avatar{display:grid;width:46px;height:46px;flex:0 0 auto;place-items:center;border-radius:50%;object-fit:cover;object-position:center 16%;}
+.messages-contact-avatar-initials,.sms-contact-avatar-initials{background:#ead6d9;color:var(--pink-dark);font-size:13px;font-weight:700;letter-spacing:.04em;}
 .messages-contact-copy{display:grid;gap:4px;min-width:0;}
 .messages-contact-copy strong{font-size:14px;}
 .messages-contact-copy span{overflow:hidden;color:var(--muted);font-size:12px;text-overflow:ellipsis;white-space:nowrap;}
@@ -443,9 +444,10 @@ body{
 .sms-back{justify-self:start;display:flex;align-items:center;gap:5px;padding:2px 0;border:0;background:transparent;color:var(--pink-dark);font-weight:700;cursor:pointer;}
 .sms-back span{font-size:12px;}
 .sms-contact-header{display:grid;justify-items:center;gap:7px;padding:4px 0 10px;border-bottom:1px solid rgba(121,75,96,.12);}
-.sms-contact-header img{width:56px;height:56px;}
+.sms-contact-avatar{width:56px;height:56px;}
 .sms-contact-header h2{margin:0;font-size:15px;}
 .sms-thread{display:flex;flex-direction:column;gap:7px;padding:12px 2px 22px;}
+.sms-empty{align-self:center;margin:12px 0;color:var(--muted);font-size:12px;}
 .sms-bubble{max-width:84%;padding:10px 13px;border-radius:18px;font-size:13px;line-height:1.4;overflow-wrap:anywhere;}
 .sms-sent{align-self:flex-end;border-bottom-right-radius:6px;background:#d7e9cf;color:#28352b;}
 .sms-received{align-self:flex-start;border-bottom-left-radius:6px;background:rgba(255,255,255,.88);color:var(--ink);}

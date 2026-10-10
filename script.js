@@ -246,7 +246,11 @@ const smsThreads = {
     {sender:"Tatsuya", image:"images/tatsuya-final-photo.png", imageAlt:"Photo of Tatsuya"},
     {sender:"MC", text:"MC ❤️ the photo", reaction:true},
     {sender:"Tatsuya", text:"Just use this one."}
-  ]
+  ],
+  Toji: [],
+  MAFIA: [],
+  Mom: [],
+  Dad: []
 };
 const messageAccountDetails = {
   RitsuMain: {username:"@AkohitoSaionji"},
@@ -255,7 +259,13 @@ const messageAccountDetails = {
 const messageContactPhotos = {
   Itsuki: "images/itsuki-pfp.png",
   Tatsuya: "images/tatsuya-pfp.png",
-  "Itsuki's Annoying Editor": "images/itsuki-editor-pfp.png"
+  "Itsuki's Annoying Editor": "images/itsuki-editor-pfp.png",
+  Toji: "images/toji-pfp.png"
+};
+const messageContactInitials = {
+  MAFIA: "MF",
+  Mom: "M",
+  Dad: "D"
 };
 
 const app = document.getElementById("app");
@@ -267,6 +277,13 @@ const toolbarSymbol = document.getElementById("toolbar-symbol");
 const statusTime = document.getElementById("status-time");
 const homeIndicator = document.querySelector(".home-indicator");
 const homeBack = document.querySelector(".home-back");
+
+function renderMessageContactAvatar(contact, className){
+  const photo = messageContactPhotos[contact];
+  return photo
+    ? `<img class="${className}" src="${photo}" alt="">`
+    : `<span class="${className} ${className}-initials" aria-hidden="true">${messageContactInitials[contact] || escapeHTML(contact.slice(0, 1))}</span>`;
+}
 
 const characterNotes = {
   Itsuki: {
@@ -397,10 +414,9 @@ function renderMessages(){
   const contacts = Object.entries(smsThreads).map(([contact, thread]) => {
     const lastMessage = thread[thread.length - 1] || {text:"No messages yet."};
     const preview = lastMessage.text || (lastMessage.image || lastMessage.photoPlaceholder ? "Photo" : "No messages yet.");
-    const photo = messageContactPhotos[contact] || "images/itsuki-pfp.png";
     return `
       <button class="messages-contact" type="button" data-contact="${contact}">
-        <img src="${photo}" alt="">
+        ${renderMessageContactAvatar(contact, "messages-contact-avatar")}
         <span class="messages-contact-copy">
           <strong>${escapeHTML(contact)}</strong>
           <span>${escapeHTML(preview)}</span>
@@ -431,7 +447,6 @@ function renderMessagesConversation(contact){
     return;
   }
 
-  const photo = messageContactPhotos[contact] || "images/itsuki-pfp.png";
   const messages = thread.map(message => message.system
     ? `<div class="sms-timeskip">${escapeHTML(message.text)}</div>`
     : message.reaction
@@ -449,11 +464,11 @@ function renderMessagesConversation(contact){
     <section class="messages-app" aria-label="Messages conversation with ${escapeHTML(contact)}">
       <button class="sms-back" type="button">‹ <span>Contacts</span></button>
       <header class="sms-contact-header">
-        <img src="${photo}" alt="">
+        ${renderMessageContactAvatar(contact, "sms-contact-avatar")}
         <h2>${escapeHTML(contact)}</h2>
       </header>
       <div class="sms-thread" aria-label="Conversation with ${escapeHTML(contact)}">
-        ${messages}
+        ${messages || '<p class="sms-empty">No messages yet.</p>'}
       </div>
     </section>`;
 
