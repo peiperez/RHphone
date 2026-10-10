@@ -32,6 +32,12 @@ const reminders = [
 ];
 
 const photoAlbum = [
+  {src:"images/album-new-19.png", title:"New photo 19"},
+  {src:"images/album-new-20.png", title:"New photo 20"},
+  {src:"images/album-new-21.png", title:"New photo 21"},
+  {src:"images/album-new-22.png", title:"New photo 22"},
+  {src:"images/album-new-23.png", title:"New photo 23"},
+  {src:"images/album-new-24.png", title:"New photo 24"},
   {src:"images/album-new-13.png", title:"New photo 13"},
   {src:"images/album-new-14.png", title:"New photo 14"},
   {src:"images/album-new-15.png", title:"New photo 15"},
@@ -349,16 +355,21 @@ const messageThreads = {
     {sender:"Ritsu", text:"they were doing that?"},
     {sender:"Ritsu", text:"of course they were"},
     {sender:"Ritsu", text:"dont let it bother you"},
-    {sender:"Ritsu", text:"that just means you were so beautiful they couldnt ignore it"},
+    {sender:"Ritsu", text:"they could probably tell u didnt like it"},
+    {sender:"Ritsu", text:"if you were just confident it might not be such an issue"},
     {sender:"MC", text:"I’m not you"},
-    {sender:"MC", text:"I would love to be ignored"},
+    {sender:"MC", text:"I want to be ignored"},
     {sender:"Ritsu", text:"just point me towards them next time"},
     {sender:"Ritsu", text:"they will be stopped by my dazzling beauty"},
-    {sender:"Ritsu", text:"dont even worry cutie~ 😉"},
+    {sender:"Ritsu", text:"why would they even look at you when my beauty outclasses you tenfold"},
+    {sender:"Ritsu", text:"dont even worry cutie~"},
+    {sender:"Ritsu", text:"Aki-kun gets much more attention than you could ever dream of"},
     {sender:"MC", text:"Uh-huh"},
-    {sender:"MC", text:"I’ll totally do that"},
+    {sender:"MC", text:"I’ll totally do that 🙄"},
     {sender:"MC", text:"Thanks Ritsu"},
-    {sender:"Ritsu", text:"np LOZERRRR~~~ 😉"}
+    {sender:"Ritsu", text:"np bbg~~~ 😉"},
+    {sender:"MC", text:"Would you stop calling me that"},
+    {sender:"Ritsu", text:"bbg~~~~~"}
   ],
   RitsuMain: [
     {sender:"Ritsu", text:"Thought ya didn't know who I was? 😏"},
