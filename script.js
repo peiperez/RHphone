@@ -481,7 +481,7 @@ const messageAccountDetails = {
   RitsuPersonal: {username:"@Midnight_Tsuki", bio:"月が綺麗ですね 🌕🌟"}
 };
 const messageContactPhotos = {
-  Itsuki: "images/itsuki-pfp.png",
+  Itsuki: "images/itsuki-message-pfp.png",
   Tatsuya: "images/tatsuya-pfp.png",
   "Itsuki's Annoying Editor": "images/itsuki-editor-pfp.png",
   Toji: "images/toji-contact-photo.png"
