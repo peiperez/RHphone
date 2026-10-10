@@ -252,6 +252,11 @@ const messageAccountDetails = {
   RitsuMain: {username:"@AkohitoSaionji"},
   RitsuPersonal: {username:"@Midnight_Tsuki", bio:"月が綺麗ですね 🌕🌟"}
 };
+const messageContactPhotos = {
+  Itsuki: "images/itsuki-pfp.png",
+  Tatsuya: "images/tatsuya-pfp.png",
+  "Itsuki's Annoying Editor": "images/itsuki-editor-pfp.png"
+};
 
 const app = document.getElementById("app");
 const navs = [...document.querySelectorAll(".nav-btn")];
@@ -392,7 +397,7 @@ function renderMessages(){
   const contacts = Object.entries(smsThreads).map(([contact, thread]) => {
     const lastMessage = thread[thread.length - 1] || {text:"No messages yet."};
     const preview = lastMessage.text || (lastMessage.image || lastMessage.photoPlaceholder ? "Photo" : "No messages yet.");
-    const photo = contact === "Tatsuya" ? "images/tatsuya-pfp.png" : "images/itsuki-pfp.png";
+    const photo = messageContactPhotos[contact] || "images/itsuki-pfp.png";
     return `
       <button class="messages-contact" type="button" data-contact="${contact}">
         <img src="${photo}" alt="">
@@ -426,7 +431,7 @@ function renderMessagesConversation(contact){
     return;
   }
 
-  const photo = contact === "Tatsuya" ? "images/tatsuya-pfp.png" : "images/itsuki-pfp.png";
+  const photo = messageContactPhotos[contact] || "images/itsuki-pfp.png";
   const messages = thread.map(message => message.system
     ? `<div class="sms-timeskip">${escapeHTML(message.text)}</div>`
     : message.reaction
