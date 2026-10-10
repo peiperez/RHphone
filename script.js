@@ -494,6 +494,14 @@ const messageContactInitials = {
 const messageContactDetails = {
   MAFIA: "CONSPICIOUS MAFIA #"
 };
+const messagePhotoReplies = {
+  Itsuki: [{sender:"Itsuki", text:"Iknew you liked it ;)"}],
+  Toji: [
+    {sender:"Toji", text:";)"},
+    {sender:"Toji", text:"...better not be the fckn cat butler pic..."}
+  ],
+  Tatsuya: [{sender:"Tatsuya", text:"What'd you like...my selfie?"}]
+};
 
 const app = document.getElementById("app");
 const navs = [...document.querySelectorAll(".nav-btn")];
@@ -702,6 +710,15 @@ function renderMessagesConversation(contact){
     </section>`;
 
   document.querySelector(".sms-back").addEventListener("click", renderMessages);
+    document.querySelectorAll(".sms-photo").forEach(image => {
+      image.addEventListener("dblclick", () => {
+        const replies = messagePhotoReplies[contact];
+        if(!replies) return;
+        thread.push(...replies.map(message => ({...message})));
+        renderMessagesConversation(contact);
+        app.scrollTo({top:app.scrollHeight, behavior:"smooth"});
+      });
+    });
 }
 
 function renderCharacterProfile(name){
