@@ -14,7 +14,7 @@ const insta = [
   {u:"@UndrGrnd_Ry", character:"Ryuji", occupation:"Entrepreneur", b:"32. You shouldn’t be here should you…?", photo:"images/ryuji-pfp.png", pos:"center 26%"},
   {u:"@Its.Ukiholic", character:"Itsuki", occupation:"Novelist", b:"27. Novelist. Check out my novel and art work in the link below!", photo:"images/itsuki-pfp.png", pos:"center 16%"},
   {u:"@AkohitoSaionji", character:"Ritsu", pseudonym:"Akihito", occupation:"Idol", b:"Idol. 20. Check out my new album: Reflexion out now!", v:true, photo:"images/akihito-ritsu.png", pos:"center 25%", threadKey:"RitsuMain"},
-  {u:"@Midnight_Tsuki", character:"Ritsu", occupation:"Idol", b:"月が綺麗ですね 🌕🌟", photo:"images/akihito-ritsu.png", pos:"center 25%", threadKey:"RitsuPersonal"}
+  {u:"@Midnight_Tsuki", character:"Ritsu", occupation:"Idol", b:"月が綺麗ですね 🌕🌟", photo:"images/midnight-tsuki-pfp.png", pos:"center 25%", threadKey:"RitsuPersonal"}
 ];
 
 const reminders = [
@@ -102,6 +102,26 @@ const messageThreads = {
     {sender:"Ryuji", text:"It suited you?"}
   ],
   Itsuki: [
+    {sender:"MC", text:"Hey, since we text more often I need an actual contact photo for you"},
+    {sender:"MC", text:"Just send me a good photo to use"},
+    {sender:"Itsuki", text:"Okay"},
+    {sender:"Itsuki", text:"(photo to be added later)"},
+    {sender:"Itsuki", text:"I chose a really good one for you 😉"},
+    {sender:"MC", text:"ITSUKI !!!"},
+    {sender:"MC", text:"OMG"},
+    {sender:"MC", text:"THATS NOT WHAT I ASKED FOR"},
+    {sender:"MC", text:"SEND ME A PHOTO OF YOU WEARING CLOTHES 😠", disliked:true},
+    {sender:"Itsuki", text:"I told you I don’t have any photos rated PG after High School"},
+    {sender:"Itsuki", text:"Just use the one from senior year I have on Insta"},
+    {sender:"MC", text:"You seriously don’t have anything else???"},
+    {sender:"MC", text:"But I don’t want to use such an old photo"},
+    {sender:"Itsuki", text:"Then take one yourself"},
+    {sender:"Itsuki", text:"We live together"},
+    {sender:"Itsuki", text:"I’m sure you could get something good"},
+    {sender:"MC", text:"I guess"},
+    {sender:"MC", text:"You’re useless"},
+    {sender:"Itsuki", text:"Only because you didn’t like it 😉"},
+    {sender:"MC", text:"Shut up"},
     {sender:"MC", text:"I just noticed your pfp"},
     {sender:"MC", text:"How old even is that???"},
     {sender:"Itsuki", text:"senior year of hs"},
@@ -124,7 +144,52 @@ const messageThreads = {
     {sender:"Itsuki", text:"im jst offring"},
     {sender:"MC", text:"I’m okay"},
     {sender:"MC", text:"You can leave the pfp alone"},
-    {sender:"Itsuki", text:"i didnt need ur permission"}
+    {sender:"Itsuki", text:"i didnt need ur permission"},
+    {sender:"Timeskip", text:"Timeskip", system:true},
+    {sender:"Itsuki", text:"I’m sick ☹"},
+    {sender:"Itsuki", text:"Make me soup when you get home"},
+    {sender:"Itsuki", text:"Otherwise, don’t bother me"},
+    {sender:"MC", text:"I will"},
+    {sender:"MC", text:"Are you okay?"},
+    {sender:"MC", text:"Do I need to leave work early?"},
+    {sender:"Itsuki", text:"don’t bother"},
+    {sender:"Itsuki", text:"i can take care of myslf"},
+    {sender:"Itsuki", text:"i just wnt soup"},
+    {sender:"MC", text:"Okay"},
+    {sender:"MC", text:"I’ll be home in like an hour"},
+    {sender:"Timeskip", text:"1 hr later", system:true},
+    {sender:"MC", text:"I’m home"},
+    {sender:"MC", text:"I’m going to make soup and then come check on you"},
+    {sender:"Itsuki", text:"k"},
+    {sender:"Timeskip", text:"30 min later", system:true},
+    {sender:"MC", text:"OMG"},
+    {sender:"MC", text:"WHY ARE YOU NAKED"},
+    {sender:"MC", text:"PUT SOME CLOTHES ON!!!"},
+    {sender:"Itsuki", text:"im sck"},
+    {sender:"Itsuki", text:"nd i was slping"},
+    {sender:"Itsuki", text:"wht did u expct"},
+    {sender:"MC", text:"FOR YOU TO BE DECENT"},
+    {sender:"MC", text:"YOU KNEW I WAS COMING IN"},
+    {sender:"MC", text:"YOU COULDNT GET DECENT IN THE 30 MINTUES IT TOOK ME TO MAKE SOUP"},
+    {sender:"Itsuki", text:"it dsnt mttr"},
+    {sender:"Itsuki", text:"i dnt mind 😉"},
+    {sender:"Itsuki", text:"plus I look gud asf"},
+    {sender:"MC", text:"I DO"},
+    {sender:"MC", text:"I won’t come back until you put some clothes on"},
+    {sender:"Itsuki", text:"noooooooo"},
+    {sender:"Itsuki", text:"pls come bck"},
+    {sender:"Itsuki", text:"i so lnly 🙁 🙁 🙁"},
+    {sender:"MC", text:"Nice try!"},
+    {sender:"MC", text:"No"},
+    {sender:"Itsuki", text:"plssssss"},
+    {sender:"Itsuki", text:"come cddle wth meeee"},
+    {sender:"Itsuki", text:"im cold"},
+    {sender:"MC", text:"No"},
+    {sender:"MC", text:"Ya know, you’d be far less cold if you PUT SOME DAMN CLOTHES ON"},
+    {sender:"Itsuki", text:"pls"},
+    {sender:"Itsuki", text:"im so pathtic nd sck"},
+    {sender:"Itsuki", text:"pls *cough cough*"},
+    {sender:"Itsuki", text:"im so sck"}
   ],
   RitsuPersonal: [
     {sender:"Ritsu", text:"Hey girl!!!"},
@@ -506,6 +571,7 @@ function renderCharacterProfile(name){
       <div class="chat-message ${message.sender === "MC" || message.sender === "User" ? "sent" : "received"}">
         <span class="chat-sender">${escapeHTML(message.sender)}</span>
         <p>${message.sticker ? '<span class="chat-sticker" role="img" aria-label="Cute sticker">🐱💕</span>' : escapeHTML(message.text)}</p>
+        ${message.disliked ? '<span class="chat-seen">Itsuki disliked this message</span>' : ''}
         ${message.seen ? '<span class="chat-seen">Seen</span>' : ''}
       </div>
     `}
