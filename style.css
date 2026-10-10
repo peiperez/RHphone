@@ -210,6 +210,7 @@ button{font:inherit}
 .chat-seen{font-size:10px;color:#92858d}
 .chat-message p{margin:0;padding:11px 14px;border-radius:15px;background:#fff0f5;color:var(--ink);font-size:14px;line-height:1.55;overflow-wrap:anywhere}
 .chat-message.sent p{background:#f1edf0}
+.chat-shared-photo{width:min(220px,100%);max-height:300px;border-radius:15px;object-fit:cover}
 .chat-system-message,.chat-empty{align-self:center;margin:8px 0;color:var(--muted);font-size:11px;font-style:italic;text-align:center}
 .chat-sticker{display:inline-block;padding:8px 12px;border-radius:16px;background:#fff;color:#cf6687;font-size:32px}
 .chat-compose{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--line);background:var(--paper)}
@@ -446,6 +447,7 @@ body{
 .sms-contact-header{display:grid;justify-items:center;gap:7px;padding:4px 0 10px;border-bottom:1px solid rgba(121,75,96,.12);}
 .sms-contact-avatar{width:56px;height:56px;}
 .sms-contact-header h2{margin:0;font-size:15px;}
+.sms-contact-details{color:var(--muted);font-size:10px;letter-spacing:.08em;}
 .sms-thread{display:flex;flex-direction:column;gap:7px;padding:12px 2px 22px;}
 .sms-empty{align-self:center;margin:12px 0;color:var(--muted);font-size:12px;}
 .sms-bubble{max-width:84%;padding:10px 13px;border-radius:18px;font-size:13px;line-height:1.4;overflow-wrap:anywhere;}

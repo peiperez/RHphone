@@ -105,7 +105,7 @@ const messageThreads = {
     {sender:"MC", text:"Hey, since we text more often I need an actual contact photo for you"},
     {sender:"MC", text:"Just send me a good photo to use"},
     {sender:"Itsuki", text:"Okay"},
-    {sender:"Itsuki", text:"(photo to be added later)"},
+    {sender:"Itsuki", image:"images/itsuki-contact-photo.png", imageAlt:"Photo Itsuki sent to MC"},
     {sender:"Itsuki", text:"I chose a really good one for you 😉"},
     {sender:"MC", text:"ITSUKI !!!"},
     {sender:"MC", text:"OMG"},
@@ -331,7 +331,17 @@ const smsThreads = {
     {sender:"Tatsuya", text:"Just use this one."}
   ],
   Toji: [],
-  MAFIA: [],
+  MAFIA: [
+    {sender:"MC", text:"I sent the payment"},
+    {sender:"MAFIA", text:"Received."},
+    {sender:"MC", text:"Where do you even get the funds to give out all of these loans?"},
+    {sender:"MC", text:"I mean, a loan of $65 million that wasn’t getting paid back"},
+    {sender:"MC", text:"How do you give all of that away and still have so much money???"},
+    {sender:"MAFIA", text:"Why do you ask?"},
+    {sender:"MAFIA", text:"It was $165 million"},
+    {sender:"MAFIA", text:"That is not important"},
+    {sender:"MAFIA", text:"Just ensure you pay it back"}
+  ],
   Mom: [],
   Dad: []
 };
@@ -349,6 +359,9 @@ const messageContactInitials = {
   MAFIA: "MF",
   Mom: "M",
   Dad: "D"
+};
+const messageContactDetails = {
+  MAFIA: "CONSPICIOUS MAFIA #"
 };
 
 const app = document.getElementById("app");
@@ -529,6 +542,7 @@ function renderMessagesConversation(contact){
     renderMessages();
     return;
   }
+  const contactDetails = messageContactDetails[contact];
 
   const messages = thread.map(message => message.system
     ? `<div class="sms-timeskip">${escapeHTML(message.text)}</div>`
@@ -549,6 +563,7 @@ function renderMessagesConversation(contact){
       <header class="sms-contact-header">
         ${renderMessageContactAvatar(contact, "sms-contact-avatar")}
         <h2>${escapeHTML(contact)}</h2>
+        ${contactDetails ? `<span class="sms-contact-details">${escapeHTML(contactDetails)}</span>` : ""}
       </header>
       <div class="sms-thread" aria-label="Conversation with ${escapeHTML(contact)}">
         ${messages || '<p class="sms-empty">No messages yet.</p>'}
@@ -570,7 +585,9 @@ function renderCharacterProfile(name){
     ${message.system ? `<div class="chat-system-message">${escapeHTML(message.text)}</div>` : `
       <div class="chat-message ${message.sender === "MC" || message.sender === "User" ? "sent" : "received"}">
         <span class="chat-sender">${escapeHTML(message.sender)}</span>
-        <p>${message.sticker ? '<span class="chat-sticker" role="img" aria-label="Cute sticker">🐱💕</span>' : escapeHTML(message.text)}</p>
+        ${message.image
+          ? `<img class="chat-shared-photo" src="${message.image}" alt="${escapeHTML(message.imageAlt)}">`
+          : `<p>${message.sticker ? '<span class="chat-sticker" role="img" aria-label="Cute sticker">🐱💕</span>' : escapeHTML(message.text)}</p>`}
         ${message.disliked ? '<span class="chat-seen">Itsuki disliked this message</span>' : ''}
         ${message.seen ? '<span class="chat-seen">Seen</span>' : ''}
       </div>
