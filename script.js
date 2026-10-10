@@ -255,6 +255,26 @@ const messageThreads = {
 };
 const smsThreads = {
   Itsuki: [
+    {sender:"MC", text:"Hey, since we text more often I need an actual contact photo for you"},
+    {sender:"MC", text:"Just send me a good photo to use"},
+    {sender:"Itsuki", text:"Okay"},
+    {sender:"Itsuki", image:"images/itsuki-contact-photo.png", imageAlt:"Photo Itsuki sent to MC"},
+    {sender:"Itsuki", text:"I chose a really good one for you 😉"},
+    {sender:"MC", text:"ITSUKI !!!"},
+    {sender:"MC", text:"OMG"},
+    {sender:"MC", text:"THATS NOT WHAT I ASKED FOR"},
+    {sender:"MC", text:"SEND ME A PHOTO OF YOU WEARING CLOTHES 😠", disliked:true},
+    {sender:"Itsuki", text:"I told you I don’t have any photos rated PG after High School"},
+    {sender:"Itsuki", text:"Just use the one from senior year I have on Insta"},
+    {sender:"MC", text:"You seriously don’t have anything else???"},
+    {sender:"MC", text:"But I don’t want to use such an old photo"},
+    {sender:"Itsuki", text:"Then take one yourself"},
+    {sender:"Itsuki", text:"We live together"},
+    {sender:"Itsuki", text:"I’m sure you could get something good"},
+    {sender:"MC", text:"I guess"},
+    {sender:"MC", text:"You’re useless"},
+    {sender:"Itsuki", text:"Only because you didn’t like it 😉"},
+    {sender:"MC", text:"Shut up"},
     {sender:"MC", text:"I finished cleaning the floors"},
     {sender:"MC", text:"Anything else you need me to do your highness"},
     {sender:"Itsuki", text:"Did you cook dinner for when I get back?"},
@@ -665,7 +685,7 @@ function renderMessagesConversation(contact){
           : message.photoPlaceholder
             ? `<span class="sms-photo-placeholder">${escapeHTML(message.photoPlaceholder)}</span>`
             : escapeHTML(message.text)
-      }</div>`
+      }</div>${message.disliked ? '<div class="sms-reaction">Itsuki disliked this message</div>' : ''}`
   ).join("");
 
   app.innerHTML = `
