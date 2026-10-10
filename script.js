@@ -99,7 +99,22 @@ const messageThreads = {
     {sender:"Ryuji", text:"Let me know if there are any issues with fit so I can order a replacement before the event"},
     {sender:"Timeskip", text:"Timeskip", system:true},
     {sender:"Ryuji", text:"It didn’t look bad on you..."},
-    {sender:"Ryuji", text:"It suited you?"}
+    {sender:"Ryuji", text:"It suited you?"},
+    {sender:"Timeskip", text:"Timeskip", system:true},
+    {sender:"MC", text:"Don’t say that"},
+    {sender:"MC", text:"It was awful"},
+    {sender:"MC", text:"Every single man in there wanted to look up my skirt"},
+    {sender:"MC", text:"I am not wearing something that short again"},
+    {sender:"Ryuji", text:"I will keep that in mind"},
+    {sender:"Ryuji", text:"I did not know the patrons were doing that"},
+    {sender:"Ryuji", text:"You should tell me if that ever happens again"},
+    {sender:"MC", text:"I didn’t think you would care"},
+    {sender:"MC", text:"Wasn’t it part of the appeal for the event?"},
+    {sender:"Ryuji", text:"Your body is not the selling point"},
+    {sender:"Ryuji", text:"If the patrons ever look at you like that again let me know"},
+    {sender:"Ryuji", text:"I will take care of it"},
+    {sender:"MC", text:"Okay"},
+    {sender:"MC", text:"Thank you ;)"}
   ],
   Itsuki: [
     {sender:"MC", text:"Hey, since we text more often I need an actual contact photo for you"},
@@ -482,7 +497,7 @@ const messageAccountDetails = {
 };
 const messageContactPhotos = {
   Itsuki: "images/itsuki-message-pfp.png",
-  Tatsuya: "images/tatsuya-pfp.png",
+  Tatsuya: "images/tatsuya-message-pfp.png",
   "Itsuki's Annoying Editor": "images/itsuki-editor-pfp.png",
   Toji: "images/toji-contact-photo.png"
 };
