@@ -32,6 +32,12 @@ const reminders = [
 ];
 
 const photoAlbum = [
+  {src:"images/album-new-07.png", title:"New photo 7"},
+  {src:"images/album-new-08.png", title:"New photo 8"},
+  {src:"images/album-new-09.png", title:"New photo 9"},
+  {src:"images/album-new-10.png", title:"New photo 10"},
+  {src:"images/album-new-11.png", title:"New photo 11"},
+  {src:"images/album-new-12.png", title:"New photo 12"},
   {src:"images/album-new-01.png", title:"New photo 1"},
   {src:"images/album-new-02.png", title:"New photo 2"},
   {src:"images/album-new-03.png", title:"New photo 3"},
