@@ -721,7 +721,7 @@ function showMessageNotification(contact, message, newMessageCount){
 
   notification.append(openButton, closeButton);
   document.querySelector(".site-shell").append(notification);
-  messageNotificationTimeout = window.setTimeout(() => notification.remove(), 4500);
+  messageNotificationTimeout = window.setTimeout(() => notification.remove(), 8000);
 }
 
 const characterNotes = {
@@ -908,6 +908,7 @@ function renderMessagesConversation(contact){
         <h2>${escapeHTML(contact)}</h2>
         ${contactDetails ? `<span class="sms-contact-details">${escapeHTML(contactDetails)}</span>` : ""}
       </header>
+      ${messagePhotoReplies[contact] ? '<p class="sms-like-hint"><span class="sms-like-hint-desktop">Double-click</span><span class="sms-like-hint-touch">Tap</span> a photo to like it and get a reply</p>' : ""}
       <div class="sms-thread" aria-label="Conversation with ${escapeHTML(contact)}">
         ${messages || '<p class="sms-empty">No messages yet.</p>'}
       </div>
@@ -915,7 +916,7 @@ function renderMessagesConversation(contact){
 
   document.querySelector(".sms-back").addEventListener("click", renderMessages);
   document.querySelectorAll(".sms-photo").forEach(image => {
-    image.addEventListener("dblclick", () => {
+    const likePhoto = () => {
       const message = thread[Number(image.dataset.messageIndex)];
       if(!message || message.liked) return;
 
@@ -925,8 +926,14 @@ function renderMessagesConversation(contact){
       renderMessagesConversation(contact);
       app.scrollTo({top:app.scrollHeight, behavior:"smooth"});
       if(replies.length) showMessageNotification(contact, replies[replies.length - 1], replies.length);
-    });
-    });
+    };
+
+    if(window.matchMedia("(hover: none), (pointer: coarse)").matches){
+      image.addEventListener("click", likePhoto);
+    } else {
+      image.addEventListener("dblclick", likePhoto);
+    }
+  });
 }
 
 function renderCharacterProfile(name){
@@ -1252,6 +1259,7 @@ function renderNotes(selected = "Itsuki"){
 
 function renderHome(){
   const homeApps = [
+    {url:"https://ooc.ai/s/6ac3781955391a2fddd84240", label:"Books Now!", icon:"📚", color:"lavender"},
     {page:"maps", label:"Maps", icon:"⌖", color:"green"},
     {page:"instapic", label:"InstaPic", icon:"◎", color:"rose"},
     {page:"messages", label:"Messages", icon:"✉", color:"blue"},
@@ -1260,7 +1268,6 @@ function renderHome(){
     {page:"notes", label:"Notes", icon:"✦", color:"yellow"},
     {page:"reminderz", label:"Reminderz", icon:"✓", color:"mint"},
     {page:"files", label:"Files", icon:"📁", color:"blue"},
-    {url:"https://ooc.ai/s/6ac3781955391a2fddd84240", label:"Books Now!", icon:"📚", color:"lavender"},
   ];
 
   app.innerHTML = `

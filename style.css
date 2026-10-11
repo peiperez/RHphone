@@ -492,13 +492,15 @@ body{
 .sms-contact-avatar{width:56px;height:56px;}
 .sms-contact-header h2{margin:0;font-size:15px;}
 .sms-contact-details{color:var(--muted);font-size:10px;letter-spacing:.08em;}
+.sms-like-hint{justify-self:center;margin:0;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.68);color:var(--pink-dark);font-size:10px;font-weight:600;text-align:center;}
+.sms-like-hint-touch{display:none;}
 .sms-thread{display:flex;flex-direction:column;gap:7px;padding:12px 2px 22px;}
 .sms-empty{align-self:center;margin:12px 0;color:var(--muted);font-size:12px;}
 .sms-bubble{max-width:84%;padding:10px 13px;border-radius:18px;font-size:13px;line-height:1.4;overflow-wrap:anywhere;}
 .sms-sent{align-self:flex-end;border-bottom-right-radius:6px;background:#d7e9cf;color:#28352b;}
 .sms-received{align-self:flex-start;border-bottom-left-radius:6px;background:rgba(255,255,255,.88);color:var(--ink);}
 .sms-photo-message{position:relative;padding:6px;}
-.sms-photo{display:block;width:min(220px,62vw);max-height:280px;border-radius:13px;object-fit:cover;}
+.sms-photo{display:block;width:min(220px,62vw);max-height:280px;border-radius:13px;object-fit:cover;cursor:zoom-in;}
 .sms-photo-heart{position:absolute;top:50%;left:50%;z-index:1;color:#e04f7b;font-size:66px;line-height:1;text-shadow:0 2px 10px rgba(255,255,255,.9),0 3px 12px rgba(95,30,55,.28);opacity:0;pointer-events:none;transform:translate(-50%,-50%);animation:sms-heart-pop .9s ease-out both;}
 .sms-photo-liked-badge{position:absolute;right:10px;bottom:10px;padding:4px 8px;border-radius:999px;background:rgba(65,42,53,.78);color:#fff;font-size:10px;font-weight:700;pointer-events:none;}
 .sms-photo-liked-badge::first-letter{color:#ff9bb8;}
@@ -513,6 +515,11 @@ body{
 .message-notification-copy strong{overflow:hidden;color:var(--ink);font-size:12px;text-overflow:ellipsis;white-space:nowrap;}
 .message-notification-copy span{overflow:hidden;color:var(--muted);font-size:11px;text-overflow:ellipsis;white-space:nowrap;}
 .message-notification-close{width:28px;height:28px;flex:0 0 auto;border:0;border-radius:50%;background:#f7edf1;color:var(--muted);font-size:20px;line-height:1;cursor:pointer;}
+@media(hover:none),(pointer:coarse){
+  .sms-like-hint-desktop{display:none;}
+  .sms-like-hint-touch{display:inline;}
+  .sms-photo{cursor:pointer;}
+}
 @keyframes sms-heart-pop{0%{opacity:0;transform:translate(-50%,-50%) scale(.25)}35%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}65%{opacity:1;transform:translate(-50%,-50%) scale(.9)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.05)}}
 @keyframes message-notification-in{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
 .home-footer{
